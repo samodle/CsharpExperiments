@@ -14,6 +14,8 @@ namespace GroceryList
 
 		protected override void OnCreate(Bundle bundle)
 		{
+          //  Items.Clear();
+
 			Items.Add(new Item("Milk",     2));
 			Items.Add(new Item("Crackers", 1));
 			Items.Add(new Item("Apples",   5));
@@ -28,22 +30,34 @@ namespace GroceryList
 
 		void OnItemsClick(object sender, EventArgs e)
 		{
-			// TODO
+            // TODO
+            var intent = new Intent(this, typeof(ItemsActivity));
+            StartActivityForResult(intent, 100);
 		}
 
 		void OnAddItemClick(object sender, EventArgs e)
 		{
-			// TODO
+            // TODO
+            var intent = new Intent(this, typeof(AddItemActivity));
+            StartActivityForResult(intent, 100);
 		}
 
 		void OnAboutClick(object sender, EventArgs e)
 		{
-			// TODO
+            // TODO
+            StartActivity(typeof(AboutActivity));
 		}
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			// TODO
+            // TODO
+            if (requestCode == 100 && resultCode == Result.Ok)
+            {
+                string name = data.GetStringExtra("ItemName");
+                int count = data.GetIntExtra("ItemCount", -1);
+
+                Items.Add(new Item(name, count));
+            }
 		}
 	}
 }

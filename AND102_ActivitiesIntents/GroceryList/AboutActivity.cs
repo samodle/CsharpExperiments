@@ -19,7 +19,13 @@ namespace GroceryList
 
 		void OnLearnMoreClick(object sender, EventArgs e)
 		{
-			// TODO
+            // TODO
+            var intent = new Intent();
+
+            intent.SetAction(Intent.ActionView);
+            intent.SetData(Android.Net.Uri.Parse("http://www.xamarin.com"));
+
+            StartActivity(intent);
 		}
 	}
 }
