@@ -9,37 +9,27 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Calculate" />
+        android:text="CALCULATE" />
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1">
+        android:layout_height="wrap_content">
         <TextView
-            android:text="Tip:"
+            android:text="Tip"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/textView1" />
+            android:layout_height="wrap_content" />
         <TextView
-            android:text=" --"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/textView2" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2">
+        android:layout_height="wrap_content">
         <TextView
-            android:text="Total:"
+            android:text="Total"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/textView3" />
+            android:layout_height="match_parent" />
         <TextView
-            android:text=" --"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/textView4" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 </LinearLayout>
