@@ -21,17 +21,26 @@ namespace XamarinUniversitry
 
             ListView instructorList = FindViewById<ListView>(Resource.Id.instructorListView);
             instructorList.ItemClick += OnItemClick;
-            instructorList.Adapter = new ArrayAdapter<Instructor>(this, Android.Resource.Layout.SimpleListItem1,InstructorData.Instructors);
+            instructorList.FastScrollEnabled = true;
+            //this was for generic -> instructorList.Adapter = new ArrayAdapter<Instructor>(this, Android.Resource.Layout.SimpleListItem1,InstructorData.Instructors);
+
+            instructorList.Adapter = new InstructorAdapter(InstructorData.Instructors);
+
         }
 
         void OnItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var instructor = InstructorData.Instructors[e.Position];
+            /* var instructor = InstructorData.Instructors[e.Position];
 
-            var dialogue = new AlertDialog.Builder(this);
-            dialogue.SetMessage(instructor.Name);
-            dialogue.SetNeutralButton("OK", delegate { });
-            dialogue.Show();
+             var dialogue = new AlertDialog.Builder(this);
+             dialogue.SetMessage(instructor.Name);
+             dialogue.SetNeutralButton("OK", delegate { });
+             dialogue.Show();*/
+            var intent = new Intent(this, typeof(InstructorDetailsActivity));
+
+            intent.PutExtra("position", e.Position);
+
+            StartActivity(intent);
         }
 
     }
