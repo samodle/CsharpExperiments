@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PertEstimate", "PertEstimate\PertEstimate.csproj", "{B3C0A0D2-30EB-4172-BA2D-C0717B63F7F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PertTests", "PertTests\PertTests.csproj", "{032CDA44-78D4-48E8-AA9C-D0B5BFEE2EBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3C0A0D2-30EB-4172-BA2D-C0717B63F7F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C0A0D2-30EB-4172-BA2D-C0717B63F7F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C0A0D2-30EB-4172-BA2D-C0717B63F7F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C0A0D2-30EB-4172-BA2D-C0717B63F7F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{032CDA44-78D4-48E8-AA9C-D0B5BFEE2EBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{032CDA44-78D4-48E8-AA9C-D0B5BFEE2EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{032CDA44-78D4-48E8-AA9C-D0B5BFEE2EBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{032CDA44-78D4-48E8-AA9C-D0B5BFEE2EBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

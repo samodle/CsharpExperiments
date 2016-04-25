@@ -1,0 +1,1 @@
+The alias/password for the keystore is "Xamarin", no quotes. 
