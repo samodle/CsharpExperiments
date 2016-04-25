@@ -1,0 +1,37 @@
+﻿<Page
+    x:Class="GreatQuotes.UWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GreatQuotes.UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:GreatQuotes"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <ListView ItemClick="OnQuoteSelected" Margin="5,20" ItemsSource="{Binding}"
+                  SelectionMode="None" IsItemClickEnabled="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Padding="10">
+                        <TextBlock FontSize="{ThemeResource ListViewHeaderItemThemeFontSize}" 
+                                   Text="{Binding QuoteText}" MaxLines="2" 
+                                   TextTrimming="CharacterEllipsis" />
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding Author}" Foreground="Gray" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Background="{ThemeResource AppBarBackgroundThemeBrush}">
+            <AppBarButton Label="Add Quote" Click="OnAddQuote" Icon="Add"/>
+        </StackPanel>
+
+    </Grid>
+
+</Page>
