@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="WebSearch.MainPage"
+    xmlns:converter="clr-namespace:WebSearch.Converters"
+    xmlns:local="clr-namespace:WebSearch"
+    Title = "Web Seach 1.0" IsBusy="{Binding IsSearching}"
+    BackgroundColor="White">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:FormattedTextConverter x:Key="ftc" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition>
+                <RowDefinition.Height>
+                    <OnPlatform x:TypeArguments="GridLength" iOS="10" Android="0" WinPhone="0" />
+                </RowDefinition.Height>
+            </RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Image x:Name="backgroundImage" 
+                Aspect="AspectFill"
+                Grid.RowSpan="3" Source="background.jpg" />
+
+        <SearchBar Text="{Binding SearchText, Mode=TwoWay}" Placeholder="Enter Search Term"
+                SearchCommand="{Binding Search}" Grid.Row="1" 
+                BackgroundColor="Transparent" TextColor="Black" />
+
+        <ListView x:Name="topicList" Grid.Row="2" 
+                  CachingStrategy="RecycleElement"
+                  SeparatorVisibility="None"
+                  BackgroundColor="Transparent"
+                  IsGroupingEnabled="True" HasUnevenRows="True"
+                  ItemsSource="{Binding SearchResults}">
+            <ListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <ViewCell Height="64">
+                        <Grid>
+                            <BoxView HeightRequest="32" BackgroundColor="#908B4513" VerticalOptions="Center" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3" />
+                                    <ColumnDefinition Width="64" />
+                                    <ColumnDefinition Width="3" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="{Binding SearchUrl.Icon}" HeightRequest="64" WidthRequest="64" VerticalOptions="Center" Grid.Column="1" Aspect="AspectFit" />
+                                <Label Text="{Binding ArticleTitle}" TextColor="White" Grid.Column="3" LineBreakMode="TailTruncation"
+                                        FontSize="Medium" VerticalTextAlignment="Center" VerticalOptions="Center" />
+                            </Grid>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.GroupHeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="5,5,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer
+                                      Command="{Binding Source={x:Reference topicList}, Path=BindingContext.VisitSelectedSite}"
+                                      CommandParameter="{Binding Owner}" />
+                            </Grid.GestureRecognizers>
+
+                            <Label FormattedText="{Binding Path=., Converter={StaticResource ftc}}" 
+                                    FontSize="Medium" VerticalTextAlignment="Center"
+                                    LineBreakMode="TailTruncation" />
+                            <Label Text="›" FontSize="48" TextColor="#8B4513" Grid.Column="2" 
+                                    VerticalOptions="Center" VerticalTextAlignment="Center" TranslationY="-5" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ContentView BackgroundColor="#F9D100" Grid.Row="2" VerticalOptions="End" 
+                HeightRequest="40" IsVisible="{Binding IsSearching}">
+            <Label Text="{Binding StatsText}" TextColor="#0BA6C5" 
+                    YAlign="Center" TranslationX="10" />
+        </ContentView>
+
+        <ActivityIndicator IsRunning="{Binding IsSearching}"
+                           IsVisible="{Binding IsSearching}"
+                           Grid.Row="0" Grid.RowSpan="3" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" 
+                           />
+
+       <Label FontSize = "Large" Text="Search term not found"
+                HorizontalOptions = "Center" VerticalOptions = "Center"
+                IsVisible="{Binding NoTermsFound}"
+                TextColor="Red"
+                Grid.Row="1" Grid.RowSpan="2" />
+
+    </Grid>
+
+</ContentPage>
