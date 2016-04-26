@@ -1,5 +1,6 @@
 ﻿using Xamarin.Auth;
 using System.Linq;
+using System;
 
 namespace Diary.Shared
 {
@@ -10,34 +11,60 @@ namespace Diary.Shared
 		const string kmKey = "keymaterial";
 		const string saltKey = "salt";
 
- 		public bool CreateAndSaveAccount (string username, string password)
-		{
-			if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-				return false;
+        public bool CreateAndSaveAccount(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                return false;
+
+            byte[] salt = CryptoUtilities.Get256BitSalt();
+            byte[] hashedPassword = CryptoUtilities.GetHash(CryptoUtilities.StringToByteArray(password), salt);
 
             AccountStore store = AccountStore.Create();
             if (GetAccountFromStore(store, username) != null)
                 return false;
 
             Account account = new Account(username);
-            account.Properties.Add(pwKey, password);
+            account.Properties.Add(pwKey, Convert.ToBase64String(hashedPassword));
+            account.Properties.Add(saltKey, Convert.ToBase64String(salt));
+            account.Properties.Add(kmKey, Convert.ToBase64String(
+                CryptoUtilities.GetAES256KeyMaterial()));
 
             store.Save(account, serviceID);
 
-			return true;
-		}
+            return true;
+        }
 
 
 
 
-        public bool LoginToAccount (string username, string password)
-		{
-			if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-				return false;
+        public bool LoginToAccount(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                return false;
 
-            Account account = GetAccount(username);
-              return account != null && account.Properties[pwKey] == password;
-		}
+            AccountStore store = AccountStore.Create();
+            Account account = GetAccountFromStore(store, username);
+            if (account == null)
+                return false;
+
+            byte[] salt, hashedPassword;
+
+            // Upgrade existing passwords to our new format -> this is only necessary because of how we did the lab
+            if (!account.Properties.ContainsKey(saltKey))
+            {
+                salt = CryptoUtilities.Get256BitSalt();
+                hashedPassword = CryptoUtilities.GetHash(CryptoUtilities.StringToByteArray(account.Properties[pwKey]), salt);
+                account.Properties[pwKey] = Convert.ToBase64String(hashedPassword);
+                account.Properties.Add(saltKey, Convert.ToBase64String(salt));
+                store.Save(account, serviceID);
+            }
+
+            salt = Convert.FromBase64String(account.Properties[saltKey]);
+            hashedPassword = CryptoUtilities.GetHash(CryptoUtilities.StringToByteArray(password), salt);
+
+            return account.Properties[pwKey] == Convert.ToBase64String(hashedPassword);
+        }
+
 
 
 

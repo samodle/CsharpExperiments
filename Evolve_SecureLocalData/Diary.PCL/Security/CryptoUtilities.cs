@@ -20,20 +20,41 @@ namespace Diary.Shared
 
 		public static byte[] Encrypt (byte[] plainText, byte[] keyMaterial)
 		{
-			//TODO
-			return plainText;
+            var provider = WinRTCrypto.SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithm.AesCbcPkcs7);
+            var key = provider.CreateSymmetricKey(keyMaterial);
+
+            var IV = WinRTCrypto.CryptographicBuffer.GenerateRandom(IVSize);
+            var cipher = WinRTCrypto.CryptographicEngine.Encrypt(key, plainText, IV);
+
+            var cipherText = new byte[IV.Length + cipher.Length];
+
+            IV.CopyTo(cipherText, 0);
+            cipher.CopyTo(cipherText, IV.Length);
+            return cipherText;
 		}
 
 		public static byte[] Decrypt (byte[] cipherText, byte[] keyMaterial)
 		{
-			//TODO
-			return cipherText;
-		}
+            var provider = WinRTCrypto.SymmetricKeyAlgorithmProvider
+            .OpenAlgorithm(SymmetricAlgorithm.AesCbcPkcs7);
+            var key = provider.CreateSymmetricKey(keyMaterial);
+            byte[] IV = new byte[IVSize];
+            Array.Copy(cipherText, IV, IV.Length);
+            byte[] cipher = new byte[cipherText.Length - IVSize];
+            Array.Copy(cipherText, IVSize, cipher, 0, cipher.Length);
+            return WinRTCrypto.CryptographicEngine.Decrypt(key, cipher, IV);
+        }
 
 		public static byte[] GetHash (byte[] data, byte[] salt)
 		{
-			//TODO
-			return data;
+
+            byte[] saltedData = new byte[data.Length + salt.Length];
+            Array.Copy(salt, saltedData, salt.Length);
+            Array.Copy(data, 0, saltedData, salt.Length, data.Length);
+
+            var sha = WinRTCrypto.HashAlgorithmProvider.OpenAlgorithm(HashAlgorithm.Sha256);
+
+			return sha.HashData(saltedData);
 		}
 
 		public static string ByteArrayToString (byte[] data)

@@ -47,14 +47,28 @@ namespace Diary
 
 		string GetDiaryText (byte[] cipherText)
 		{
-			//TODO
-			return CryptoUtilities.ByteArrayToString (cipherText);
+            string keyString;
+
+            if (!account.Properties.TryGetValue(kmKey, out keyString))
+                return string.Empty;
+
+            byte[] keyMaterial = Convert.FromBase64String(keyString);
+
+            return CryptoUtilities.ByteArrayToString(CryptoUtilities.Decrypt(cipherText, keyMaterial));
 		}
 
 		byte[] GetCipherText (string diaryText)
 		{
-			//TODO
-			return CryptoUtilities.StringToByteArray (diaryText);
-		}
-	}
+            string keyString;
+            if (!account.Properties.TryGetValue(kmKey, out keyString))
+                return null;
+
+            byte[] keyMaterial = Convert.FromBase64String(keyString);
+
+            return CryptoUtilities.Encrypt(
+                CryptoUtilities.StringToByteArray(diaryText),
+                keyMaterial);
+
+        }
+    }
 }
