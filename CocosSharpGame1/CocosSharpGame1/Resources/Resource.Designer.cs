@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("ComicBook.Droid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("CocosSharpGame1.Resource", IsApplication=true)]
 
-namespace ComicBook.Droid
+namespace CocosSharpGame1
 {
 	
 	
@@ -26,7 +26,6 @@ namespace ComicBook.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::ComicBook.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Attribute
@@ -46,7 +45,7 @@ namespace ComicBook.Droid
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int icon = 2130837504;
+			public const int Icon = 2130837504;
 			
 			static Drawable()
 			{
@@ -54,6 +53,54 @@ namespace ComicBook.Droid
 			}
 			
 			private Drawable()
+			{
+			}
+		}
+		
+		public partial class Id
+		{
+			
+			// aapt resource value: 0x7f050000
+			public const int GameView = 2131034112;
+			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Id()
+			{
+			}
+		}
+		
+		public partial class Layout
+		{
+			
+			// aapt resource value: 0x7f030000
+			public const int Main = 2130903040;
+			
+			static Layout()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Layout()
+			{
+			}
+		}
+		
+		public partial class String
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int ApplicationName = 2130968576;
+			
+			static String()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private String()
 			{
 			}
 		}
