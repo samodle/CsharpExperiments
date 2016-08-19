@@ -11,6 +11,18 @@ namespace CR_DeckAnalysis
         public int Rank { get; set; } = -1; //deck position in top 100
         public List<Card> Cards { get; set; } = new List<Card>();
         public int Season { get; set; } = -1;
+
+        public double getPctRarity(CardRarity rarity)
+        {
+            double tmpSum = 0.0;
+            for(int i = 0; i < Cards.Count; i++)
+            {
+                if (Cards[i].Rarity == rarity)
+                    tmpSum += 1;
+            }
+            return tmpSum * 100 / 8;
+        }
+
         public double AvgCost()
         {
             if (Cards.Count != 8)
