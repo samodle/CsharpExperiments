@@ -8,11 +8,11 @@ namespace CR_DeckAnalysis
 {
     public class Card
     {
-        public string Name { get; private set; }
+        public string Name { get;  set; }
 
-        public int Cost { get; private set; }
+        public int Cost { get;  set; }
 
-        public CardRarity Rarity { get; private set; }
+        public CardRarity Rarity { get; set; }
 
 
         public Card(string name)
@@ -117,6 +117,12 @@ namespace CR_DeckAnalysis
                     break;
 
                 case "mini pekka":
+                    Cost = 4;
+                    Rarity = CardRarity.Rare;
+                    break;
+
+                case "mini p.e.k.k.a":
+                    Name = "mini pekka";
                     Cost = 4;
                     Rarity = CardRarity.Rare;
                     break;
@@ -267,6 +273,12 @@ namespace CR_DeckAnalysis
                     break;
 
                 case "pekka":
+                    Cost = 7;
+                    Rarity = CardRarity.Epic;
+                    break;
+
+                case "p.e.k.k.a":
+                    Name = "pekka";
                     Cost = 7;
                     Rarity = CardRarity.Epic;
                     break;
