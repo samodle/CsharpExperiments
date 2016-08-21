@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,17 +9,29 @@ namespace CR_DeckAnalysis
 {
     public class Card
     {
-        public string Name { get;  set; }
+        public string Name { get; set; } = "";
 
-        public int Cost { get;  set; }
+        [JsonIgnore]
+        public int Cost { get; set; } = -1;
 
+        [JsonIgnore]
         public CardRarity Rarity { get; set; }
 
+
+        public override string ToString()
+        {
+            return Name + " " + Cost;
+        }
 
         public Card(string name)
         {
             this.Name = name.ToLower();
 
+            initFieldsFromName();
+        }
+
+        public void initFieldsFromName()
+        {
             switch (this.Name)
             {
                 case "mirror":

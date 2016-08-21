@@ -11,6 +11,20 @@ namespace CR_DeckAnalysis
         public int Rank { get; set; } = -1; //deck position in top 100
         public List<Card> Cards { get; set; } = new List<Card>();
         public int Season { get; set; } = -1;
+        public string PlayerName { get; set; } = "";
+
+        public override string ToString()
+        {
+            if(Cards.Count < 8)
+                return base.ToString();
+
+            return Rank + ": " + Rank + ", Avg. Cost: " + AvgCost() ;
+        }
+
+        public void addCard(Card c)
+        {
+            Cards.Add(c);
+        }
 
         public double getPctRarity(CardRarity rarity)
         {
@@ -55,6 +69,14 @@ namespace CR_DeckAnalysis
 
             return workingSum / Cards.Count;
 
+        }
+
+        public Deck() { }
+        public Deck(int season, int rank)
+        {
+            this.Season = season;
+            this.Rank = rank;
+            this.PlayerName = rank.ToString();
         }
         
     }

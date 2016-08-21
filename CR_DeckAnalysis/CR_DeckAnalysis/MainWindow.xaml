@@ -21,7 +21,7 @@
             <Canvas x:Name="MenuTabCanvas" Visibility="Visible">
 
                 <!-- <Label x:Name="DemoButton" Content="Launch Demo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="LaunchDemoClicked" Canvas.Left="151" Canvas.Top="87"/> -->
-                <Label x:Name="CreateWarehouseButton" Content="Initialize" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" Canvas.Left="18" Canvas.Top="150"/>
+                <Label x:Name="CreateWarehouseButton" MouseDown="startTest" Content="Initialize" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" Canvas.Left="18" Canvas.Top="150"/>
                </Canvas>
 
             <!-- Unused Tab -->

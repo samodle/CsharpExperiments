@@ -27,7 +27,10 @@ namespace CR_DeckAnalysis
         {
             InitializeComponent();
         }
-
+        public void startTest(object o, EventArgs e)
+        {
+            TestProtocol.startTest();
+        }
 
         #region UI Nav
         private void MenuTabClicked(object sender, EventArgs e)
