@@ -46,7 +46,7 @@ namespace CR_DeckAnalysis
             }
             else
             {
-                List<Deck> importList = IO.DeckList_Import("C:\\Users\\odle.so.1\\Desktop\\decklist.txt");
+                List<Deck> importList = IO.DeckList_Import("C:\\Users\\odle.so.1\\Source\\Repos\\CsharpExperiments\\CR_DeckAnalysis\\10.txt");
             }
 
 
