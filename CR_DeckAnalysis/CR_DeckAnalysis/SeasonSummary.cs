@@ -11,6 +11,9 @@ namespace CR_DeckAnalysis
         public int SeasonNumber { get; set; }
         public List<Deck> Top100Decks { get; set; } = new List<Deck>();
 
+        public SeasonSummary(List<Deck> deckList, int seasonNum)
+        {
 
+        }
     }
 }

@@ -265,7 +265,7 @@ namespace CR_DeckAnalysis
                     Rarity = CardRarity.Epic;
                     break;
 
-                case "lightening":
+                case "lightning":
                     Cost = 6;
                     Rarity = CardRarity.Epic;
                     break;
