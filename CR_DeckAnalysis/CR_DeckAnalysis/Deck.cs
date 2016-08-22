@@ -39,8 +39,8 @@ namespace CR_DeckAnalysis
 
         public double AvgCost()
         {
-            if (Cards.Count != 8)
-                throw new Exception("Incomplete Deck");
+         //   if (Cards.Count != 8)
+         //       throw new Exception("Incomplete Deck");
 
             double workingSum = 0;
             bool containsMirror = false;
@@ -53,8 +53,8 @@ namespace CR_DeckAnalysis
                 }
                 else
                 {
-                    if (containsMirror)
-                        throw new Exception("Duplicate Card");
+                 //   if (containsMirror)
+                 //       throw new Exception("Duplicate Card");
 
                     containsMirror = true;
                 }

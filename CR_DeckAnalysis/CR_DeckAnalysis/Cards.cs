@@ -185,6 +185,12 @@ namespace CR_DeckAnalysis
                     Rarity = CardRarity.Rare;
                     break;
 
+                case "inferno":
+                    Name = "inferno tower";
+                    Cost = 5;
+                    Rarity = CardRarity.Rare;
+                    break;
+
                 case "goblin hut":
                     Cost = 5;
                     Rarity = CardRarity.Rare;
