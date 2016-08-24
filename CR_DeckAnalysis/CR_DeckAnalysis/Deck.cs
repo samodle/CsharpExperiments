@@ -8,10 +8,12 @@ namespace CR_DeckAnalysis
 {
     public class Deck
     {
+        #region Variables & Properties
         public int Rank { get; set; } = -1; //deck position in top 100
         public List<Card> Cards { get; set; } = new List<Card>();
         public int Season { get; set; } = -1;
         public string PlayerName { get; set; } = "";
+        #endregion
 
         public override string ToString()
         {

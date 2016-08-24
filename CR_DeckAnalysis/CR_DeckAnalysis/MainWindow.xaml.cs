@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,13 @@ namespace CR_DeckAnalysis
 
         List<SeasonSummary> DeckSummaries = new List<SeasonSummary>();
 
+        public ObservableCollection<SeasonSummary> DeckSummaries_Visible { get; set; } = new ObservableCollection<SeasonSummary>();
+        public ObservableCollection<Deck> SelectedDecks_Visible { get; set; } = new ObservableCollection<Deck>();
+
         public MainWindow()
         {
             InitializeComponent();
+         //   startTest();
         }
         public void startTest(object o, EventArgs e)
         {
@@ -53,11 +58,11 @@ namespace CR_DeckAnalysis
             DeckSummaries.Add(new SeasonSummary(importList9, 9));
             DeckSummaries.Add(new SeasonSummary(importList10, 10));
 
-
-
-
-
-
+            for(int i = 0; i < DeckSummaries.Count; i++)
+            {
+                DeckSummaries_Visible.Add(DeckSummaries[i]);
+            }
+            Seasons_GridView.Rebind();
             // TestProtocol.startTest();
         }
 

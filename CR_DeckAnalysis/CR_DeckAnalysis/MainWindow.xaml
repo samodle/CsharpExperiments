@@ -1,4 +1,5 @@
-﻿<Window  x:Class="CR_DeckAnalysis.MainWindow"
+﻿<Window xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"  
+        x:Class="CR_DeckAnalysis.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,18 +13,54 @@
     <Grid>
         <Canvas x:Name="MainCanvas">
 
-            <Label x:Name="MenuTab" Content="Main Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="MenuTabClicked" Canvas.Left="10" Canvas.Top="15"/>
-            <Label x:Name="RawDataTab" Content="Advanced" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#FFCADDE4" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand"   MouseDown="RawTabClicked" Canvas.Left="114" Canvas.Top="15" />
-            <Label x:Name="FinalDataTab" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#FFCADDE4" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="FinalTabClicked" Canvas.Left="218" Canvas.Top="15" />
+            <Label x:Name="MenuTab" Content="Season Summaries" HorizontalAlignment="Left" VerticalAlignment="Top" Width="114" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="MenuTabClicked" Canvas.Left="10" Canvas.Top="15"/>
+            <Label x:Name="RawDataTab" Content="Card Analysis" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#FFCADDE4" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand"   MouseDown="RawTabClicked" Canvas.Left="124" Canvas.Top="15" />
+            <Label x:Name="FinalDataTab" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#FFCADDE4" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="FinalTabClicked" Canvas.Left="228" Canvas.Top="15" />
 
             <Label x:Name="TitleLabel" Content="Deck Analysis" HorizontalAlignment="Left" Canvas.Left="402" Canvas.Right="20" VerticalAlignment="Top" Width="572" FontFamily="Segoe UI Light" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="1" FontWeight="Bold" Foreground="#FF4F4F4F" Canvas.Top="10"/>
             <!-- Main Warehouse Display Tab -->
             <Canvas x:Name="MenuTabCanvas" Visibility="Visible">
 
                 <!-- <Label x:Name="DemoButton" Content="Launch Demo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="LaunchDemoClicked" Canvas.Left="151" Canvas.Top="87"/> -->
-                <Label x:Name="CreateWarehouseButton" MouseDown="startTest" Content="Initialize" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" Canvas.Left="18" Canvas.Top="150"/>
-               </Canvas>
+                <Label x:Name="CreateButton" MouseDown="startTest" Content="Initialize" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" Canvas.Left="1262" Canvas.Top="89"/>
+                <telerik:RadGridView x:Name="Seasons_GridView" Canvas.Top="89" Width="527" 
+                                                 AutoGenerateColumns="False" 
+                                                 GroupRenderMode="Flat"                                                 
+                                                 ItemsSource="{Binding DeckSummaries_Visible}" 
+                                                 IsReadOnly="True"
+                                                 ShowGroupPanel="False"
+                                                 IsFilteringAllowed="False"
+                                                 RowIndicatorVisibility="Collapsed"
+                                          		CanUserFreezeColumns="False" Canvas.Left="41" Height="346"             
+>
+                    <telerik:StyleManager.Theme>
+                        <telerik:Windows8Theme/>
+                    </telerik:StyleManager.Theme>
 
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding SeasonNumber}" 
+						Header="Snapshot #"
+						Width="80"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding AvgCost}" 
+						Header="Deck Cost"
+						Width="70"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Pct_Legendary}" 
+						Header="% Legendary"
+						Width="90"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Pct_Epic}" 
+						Header="% Epic"
+						Width="90"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Pct_Rare}" 
+						Header="% Rare"
+						Width="90"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Pct_Common}" 
+						Header="% Common"
+						Width="90"/>
+
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+
+            </Canvas>
             <!-- Unused Tab -->
             <Canvas x:Name="RawTabCanvas" Visibility="Hidden">
 
@@ -32,7 +69,7 @@
 
             <!-- Settings Tab -->
             <Canvas x:Name="FinalTabCanvas" Visibility="Hidden">
-               </Canvas>
+            </Canvas>
 
 
 
