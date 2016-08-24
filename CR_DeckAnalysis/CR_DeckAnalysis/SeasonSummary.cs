@@ -10,11 +10,14 @@ namespace CR_DeckAnalysis
     {
         public int SeasonNumber { get; set; }
         public List<Deck> Top100Decks { get; set; } = new List<Deck>();
+        public List<CardReport> CardData { get; set; } = new List<CardReport>();
 
         public override string ToString()
         {
             return "#: " + SeasonNumber +  ", Avg. Cost: " + AvgCost + ", % Legendary: " + Pct_Legendary + ", % Epic: " + Pct_Epic + ", % Rare: " + Pct_Rare;
         }
+
+        public List<string> CardNames = new List<string>(new string[] { "mirror", "ice spirit", "skeletons","fire spirits", "goblins", "zap", "spear goblins","minions", "arrows", "bomber", "cannon", "archers", "knight", "tesla", "mortar","minion horde", "barbarians","royal giant", "tombstone", "mini p.e.k.k.a", "valkyrie", "musketeer", "fireball", "furnace","hog rider", "wizard", "giant","bomb tower", "inferno tower", "goblin hut", "elixir collector", "rocket","barbarian hut", "three musketeers", "rage", "goblin barrel", "guards", "dark prince", "poison","baby dragon", "skeleton army","freeze", "prince","witch", "balloon", "lightning", "bowler", "giant skeleton", "x-bow","p.e.k.k.a", "golem", "log","miner", "princess","ice wizard", "lumberjack","sparky","lava hound" });
 
 
         public double AvgCost { get; set; } = -1;
@@ -48,3 +51,7 @@ namespace CR_DeckAnalysis
 
     }
 }
+
+
+
+
