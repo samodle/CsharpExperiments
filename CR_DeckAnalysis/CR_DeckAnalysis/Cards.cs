@@ -130,12 +130,13 @@ namespace CR_DeckAnalysis
                     break;
 
                 case "mini pekka":
+                    Name = "mini p.e.k.k.a";
                     Cost = 4;
                     Rarity = CardRarity.Rare;
                     break;
 
                 case "mini p.e.k.k.a":
-                    Name = "mini pekka";
+       
                     Cost = 4;
                     Rarity = CardRarity.Rare;
                     break;
@@ -292,12 +293,13 @@ namespace CR_DeckAnalysis
                     break;
 
                 case "pekka":
+                    Name = "p.e.k.k.a";
                     Cost = 7;
                     Rarity = CardRarity.Epic;
                     break;
 
                 case "p.e.k.k.a":
-                    Name = "pekka";
+
                     Cost = 7;
                     Rarity = CardRarity.Epic;
                     break;

@@ -34,6 +34,16 @@ namespace CR_DeckAnalysis
             initMetrics();
         }
 
+        public int HowManyOfCard(string cardName)
+        {
+            for(int i = 0; i < CardData.Count; i++)
+            {
+                if (CardData[i].Name == cardName)
+                    return CardData[i].NumberPresent;
+            }
+            return -1;
+        }
+
         private void initMetrics()
         {
             AvgCost = Top100Decks.Sum(item => item.AvgCost()) / Top100Decks.Count;
@@ -46,6 +56,21 @@ namespace CR_DeckAnalysis
 
             Pct_Common = Top100Decks.Sum(item => item.getPctRarity(CardRarity.Common)) / Top100Decks.Count;
 
+            initCardData();
+        }
+
+        private void initCardData()
+        {
+            for(int cardInc = 0; cardInc < CardNames.Count; cardInc++)
+            {
+                CardReport tmpReport = new CardReport(CardNames[cardInc]);
+                for(int deckInc = 0; deckInc < Top100Decks.Count; deckInc++)
+                {
+                    if (Top100Decks[deckInc].doesContainCard(CardNames[cardInc]))
+                        tmpReport.NumberPresent++;
+                }
+                CardData.Add(tmpReport);
+            }
         }
 
 

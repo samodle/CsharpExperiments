@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telerik.Charting;
+using Telerik.Windows.Controls.ChartView;
 
 namespace CR_DeckAnalysis
 {
@@ -26,15 +28,18 @@ namespace CR_DeckAnalysis
 
         List<SeasonSummary> DeckSummaries = new List<SeasonSummary>();
 
+        List<int> ChartYVals = new List<int>();
+        List<string> ChartXVals = new List<string>();
+
         public ObservableCollection<SeasonSummary> DeckSummaries_Visible { get; set; } = new ObservableCollection<SeasonSummary>();
-        public ObservableCollection<Deck> SelectedDecks_Visible { get; set; } = new ObservableCollection<Deck>();
+        public ObservableCollection<CardReport> SelectedDecks_Visible { get; set; } = new ObservableCollection<CardReport>();
 
         public MainWindow()
         {
             InitializeComponent();
-         //   startTest();
+            startTest();
         }
-        public void startTest(object o, EventArgs e)
+        public void startTest()//object o, EventArgs e)
         {
 
             List<Deck> importList1 = IO.DeckList_Import("C:\\Users\\odle.so.1\\Source\\Repos\\CsharpExperiments\\CR_DeckAnalysis\\1.txt");
@@ -58,11 +63,11 @@ namespace CR_DeckAnalysis
             DeckSummaries.Add(new SeasonSummary(importList9, 9));
             DeckSummaries.Add(new SeasonSummary(importList10, 10));
 
-            for(int i = 0; i < DeckSummaries.Count; i++)
+            for (int i = 0; i < DeckSummaries.Count; i++)
             {
                 DeckSummaries_Visible.Add(DeckSummaries[i]);
             }
-            Seasons_GridView.Rebind();
+            //Seasons_GridView.Rebind();
             // TestProtocol.startTest();
         }
 
@@ -117,6 +122,132 @@ namespace CR_DeckAnalysis
               }*/
         }
         #endregion
+
+        private void ChartTrackBallBehavior_InfoUpdated(object sender, TrackBallInfoEventArgs e)
+        {
+            var tmpString = "";
+            foreach (DataPointInfo info in e.Context.DataPointInfos)
+            {
+                // info.DisplayHeader = "Custom data point header";
+                tmpString += info.DataPoint.Label + Environment.NewLine;
+            }
+
+            e.Header = tmpString;
+        }
+
+
+        public void Gridview_SelectionChanged(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
+        {
+            if (e.AddedItems.Count > 0) //make sure we have some items
+            {
+                //find the event, the name, and the index in our collection
+                var tmpEvent = (SeasonSummary) e.AddedItems[0];
+                var seasonNumber = tmpEvent.SeasonNumber;
+                int tmpIndex = -1;
+                for (int i = 0; i < DeckSummaries_Visible.Count; i++)
+                {
+                    if (DeckSummaries_Visible[i].SeasonNumber == seasonNumber) { tmpIndex = i; break; }
+                }
+                //do something about it!
+                if (tmpIndex > -1)
+                {
+                    SelectedDecks_Visible.Clear();
+                    for (int i = 0; i < DeckSummaries_Visible[tmpIndex].CardData.Count; i++)
+                    {
+                        SelectedDecks_Visible.Add(DeckSummaries_Visible[tmpIndex].CardData[i]);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unknown Loss Selected: " + seasonNumber); //somehow we selected something not in the bound list
+                }
+            }
+        }
+
+        public void Gridview_SelectionChanged2(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
+        {
+            if (e.AddedItems.Count > 0) //make sure we have some items
+            {
+                //find the event, the name, and the index in our collection
+                var tmpEvent = (CardReport) e.AddedItems[0];
+                var name = tmpEvent.Name;
+                int tmpIndex = -1;
+                for (int i = 0; i < SelectedDecks_Visible.Count; i++)
+                {
+                    if (SelectedDecks_Visible[i].Name == name) { tmpIndex = i; break; }
+                }
+                //do something about it!
+                if (tmpIndex > -1)
+                {
+                    ChartYVals.Clear();
+                    ChartXVals.Clear();
+                    for (int i = 0; i < DeckSummaries.Count; i++)
+                    {
+                        ChartYVals.Add(DeckSummaries[i].HowManyOfCard(name));
+                        ChartXVals.Add(DeckSummaries[i].SeasonNumber.ToString());
+                    }
+
+                    updateChart();
+                }
+                else
+                {
+                    MessageBox.Show("Unknown Selection: " + name); //somehow we selected something not in the bound list
+                }
+            }
+        }
+
+        private void updateChart()
+        {
+            //make the chart
+            var blankDataTemplate = new DataTemplate("");
+            CardChart.Series.Clear();
+            CardChart.Palette = getLineColors();
+
+            CardChart.VerticalAxis = new LinearAxis();
+            CardChart.VerticalAxis.Title = "# Cards";
+
+
+
+
+            CategoricalSeries newSeries = new LineSeries();
+            for (int i = 0; i < ChartXVals.Count; i++)
+            {
+                double value = ChartYVals[i];
+                newSeries.DataPoints.Add(new CategoricalDataPoint { Value = value, Category = ChartXVals[i], Label = ChartXVals[i] + ": " + ChartYVals[i] });
+            }
+                //new comment!!!
+                newSeries.TrackBallInfoTemplate = blankDataTemplate;
+                CardChart.Series.Add(newSeries);
+            
+
+            //    Loss_LineChart.HorizontalAxis.LabelInterval = 6;
+            //   Loss_LineChart.HorizontalAxis.LabelFitMode = AxisLabelFitMode.None;
+
+        }
+
+        public ChartPalette getLineColors()
+        {
+            var tmp = new ChartPalette();
+            addPaletteEntry(ref tmp, 50, 205, 240);
+            addPaletteEntry(ref tmp, 254, 118, 58);
+            addPaletteEntry(ref tmp, 153, 192, 73);
+            addPaletteEntry(ref tmp, 1, 149, 159);
+            addPaletteEntry(ref tmp, 115, 127, 65);
+            addPaletteEntry(ref tmp, 119, 199, 198);
+            addPaletteEntry(ref tmp, 189, 171, 210);
+            addPaletteEntry(ref tmp, 76, 74, 75);
+            addPaletteEntry(ref tmp, 255, 175, 2);
+            addPaletteEntry(ref tmp, 150, 76, 143);
+            addPaletteEntry(ref tmp, 18, 135, 170);
+            return tmp;
+        }
+        private void addPaletteEntry(ref ChartPalette palette, byte R, byte G, byte B)
+        {
+            var tmp = new PaletteEntry();
+            tmp.Fill = new SolidColorBrush(Color.FromRgb(R, G, B));
+            tmp.Stroke = new SolidColorBrush(Color.FromRgb(R, G, B));
+            palette.GlobalEntries.Add(tmp);
+        }
 
 
     }

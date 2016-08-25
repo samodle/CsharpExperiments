@@ -24,7 +24,7 @@ namespace CR_DeckAnalysis
 
         public override string ToString()
         {
-            return Name + " " + Cost;
+            return Name + " " + NumberPresent;
         }
 
         public CardReport(string name)

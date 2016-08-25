@@ -15,6 +15,16 @@ namespace CR_DeckAnalysis
         public string PlayerName { get; set; } = "";
         #endregion
 
+        public bool doesContainCard(string cardName)
+        {
+            for(int i = 0; i < Cards.Count; i++)
+            {
+                if (Cards[i].Name == cardName)
+                    return true;
+            }
+            return false;
+        }
+
         public override string ToString()
         {
             if(Cards.Count < 8)

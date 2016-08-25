@@ -10,6 +10,20 @@
         ResizeMode="CanResize" 
         Height="706.038" Width="1375.148" WindowStartupLocation="CenterScreen">
 
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TransparentTickStyle" TargetType="FrameworkElement">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Style>
+
+            <DataTemplate x:Key="LabelEmpty">
+                <Grid />
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+
     <Grid>
         <Canvas x:Name="MainCanvas">
 
@@ -21,12 +35,44 @@
             <!-- Main Warehouse Display Tab -->
             <Canvas x:Name="MenuTabCanvas" Visibility="Visible">
 
-                <!-- <Label x:Name="DemoButton" Content="Launch Demo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="LaunchDemoClicked" Canvas.Left="151" Canvas.Top="87"/> -->
-                <Label x:Name="CreateButton" MouseDown="startTest" Content="Initialize" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" Canvas.Left="1262" Canvas.Top="89"/>
+                <telerik:RadCartesianChart x:Name="CardChart" Canvas.Left="103" Canvas.Top="462" Height="178" Width="1200">
+                    <telerik:RadCartesianChart.TrackBallInfoStyle>
+                        <Style TargetType="{x:Type telerik:TrackBallInfoControl}">
+
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}"
+                            								FontSize="11"
+                            								Foreground="Black"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </telerik:RadCartesianChart.TrackBallInfoStyle>
+
+                    <telerik:RadCartesianChart.Behaviors>
+                        <telerik:ChartPanAndZoomBehavior ZoomMode="Horizontal" PanMode="Horizontal"/>
+                        <telerik:ChartTrackBallBehavior ShowTrackInfo="True"
+                            				ShowIntersectionPoints="True"
+                            				TrackInfoUpdated="ChartTrackBallBehavior_InfoUpdated"/>
+                    </telerik:RadCartesianChart.Behaviors>
+
+                    <telerik:RadCartesianChart.HorizontalAxis>
+                        <telerik:CategoricalAxis MajorTickStyle="{StaticResource TransparentTickStyle}" />
+                    </telerik:RadCartesianChart.HorizontalAxis>
+
+                </telerik:RadCartesianChart>
+
+
+
+                <!--  MouseDown="startTest" <Label x:Name="DemoButton" Content="Launch Demo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="LaunchDemoClicked" Canvas.Left="151" Canvas.Top="87"/> -->
+                <Label x:Name="CreateButton" Content="Initialize" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" Canvas.Left="1262" Canvas.Top="89"/>
                 <telerik:RadGridView x:Name="Seasons_GridView" Canvas.Top="89" Width="527" 
                                                  AutoGenerateColumns="False" 
                                                  GroupRenderMode="Flat"                                                 
                                                  ItemsSource="{Binding DeckSummaries_Visible}" 
+                                                 SelectionChanged="Gridview_SelectionChanged"
                                                  IsReadOnly="True"
                                                  ShowGroupPanel="False"
                                                  IsFilteringAllowed="False"
@@ -60,6 +106,34 @@
                     </telerik:RadGridView.Columns>
                 </telerik:RadGridView>
 
+                <telerik:RadGridView x:Name="Cards_GridView" Canvas.Top="95" Width="150" 
+                                                 AutoGenerateColumns="False" 
+                                                 GroupRenderMode="Flat"                                                 
+                                                 ItemsSource="{Binding SelectedDecks_Visible}" 
+                                                 SelectionChanged="Gridview_SelectionChanged2"
+                                                 IsReadOnly="True"
+                                                 ShowGroupPanel="False"
+                                                 IsFilteringAllowed="False"
+                                                 RowIndicatorVisibility="Collapsed"
+                                          		CanUserFreezeColumns="False" Canvas.Left="658" Height="346"             
+>
+                    <telerik:StyleManager.Theme>
+                        <telerik:Windows8Theme/>
+                    </telerik:StyleManager.Theme>
+
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Name}" 
+						Header="Card"
+						Width="80"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding NumberPresent}" 
+						Header="#"
+						Width="70"/>
+
+
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+
+
             </Canvas>
             <!-- Unused Tab -->
             <Canvas x:Name="RawTabCanvas" Visibility="Hidden">
@@ -70,8 +144,6 @@
             <!-- Settings Tab -->
             <Canvas x:Name="FinalTabCanvas" Visibility="Hidden">
             </Canvas>
-
-
 
         </Canvas>
     </Grid>
