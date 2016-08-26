@@ -31,6 +31,10 @@ namespace CR_DeckAnalysis
         List<int> ChartYVals = new List<int>();
         List<string> ChartXVals = new List<string>();
 
+        List<List<int>> CardTrend_ChartYVals = new List<List<int>>();
+        List<List<string>> CardTrend_ChartXVals = new List<List<string>>();
+        List<string> CardTrend_SeriesNames = new List<string>();
+
         public ObservableCollection<SeasonSummary> DeckSummaries_Visible { get; set; } = new ObservableCollection<SeasonSummary>();
         public ObservableCollection<CardReport> SelectedDecks_Visible { get; set; } = new ObservableCollection<CardReport>();
 
@@ -196,6 +200,70 @@ namespace CR_DeckAnalysis
             }
         }
 
+
+        public void Gridview_SelectionChanged3(object sender, Telerik.Windows.Controls.SelectionChangeEventArgs e)
+        {
+            Telerik.Windows.Controls.RadGridView ppp = (Telerik.Windows.Controls.RadGridView) sender;
+          //  if (e.AddedItems.Count > 0) //make sure we have some items
+          if (ppp.SelectedItems.Count > 0)
+            {
+
+                List<CardReport> tmpEvents = new List<CardReport>();
+                List<string> tmpNames = new List<string>();
+                List<int> tmpIndices = new List<int>();
+
+                CardTrend_SeriesNames.Clear();
+
+                for (int ix = 0; ix < ppp.SelectedItems.Count; ix++)
+                {
+                    //find the event, the name, and the index in our collection
+                     var tmpEvent = (CardReport) ppp.SelectedItems[ix];
+                    // var name = tmpEvent.Name;
+                     //int tmpIndex = -1;
+                    tmpEvents.Add(tmpEvent);
+                    tmpNames.Add(tmpEvent.Name);
+                    CardTrend_SeriesNames.Add(tmpEvent.Name);
+                    for (int i = 0; i < SelectedDecks_Visible.Count; i++)
+                    {
+                        if (SelectedDecks_Visible[i].Name == tmpEvent.Name) { tmpIndices.Add(i); break; }
+                    }
+                }
+
+                CardTrend_ChartYVals.Clear();
+                CardTrend_ChartXVals.Clear();
+
+                for (int j = 0; j < tmpIndices.Count; j++)
+                {
+                    //do something about it!
+                    if (tmpIndices[j] > -1)
+                    {
+         
+
+                        var tmpYList = new List<int>();
+                        var tmpXList = new List<string>();
+
+                        for (int i = 0; i < DeckSummaries.Count; i++)
+                        {
+                            tmpYList.Add(DeckSummaries[i].HowManyOfCard(tmpNames[j]));
+                            tmpXList.Add(DeckSummaries[i].SeasonNumber.ToString());
+                        }
+
+                        CardTrend_ChartXVals.Add(tmpXList);
+                        CardTrend_ChartYVals.Add(tmpYList);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unknown Selection: " ); //somehow we selected something not in the bound list
+                    }
+                }
+                updateChart();
+
+            }
+        }
+
+
+
+
         private void updateChart()
         {
             //make the chart
@@ -207,18 +275,19 @@ namespace CR_DeckAnalysis
             CardChart.VerticalAxis.Title = "# Cards";
 
 
-
-
-            CategoricalSeries newSeries = new LineSeries();
-            for (int i = 0; i < ChartXVals.Count; i++)
+            for (int j = 0; j < CardTrend_ChartYVals.Count; j++)
             {
-                double value = ChartYVals[i];
-                newSeries.DataPoints.Add(new CategoricalDataPoint { Value = value, Category = ChartXVals[i], Label = ChartXVals[i] + ": " + ChartYVals[i] });
-            }
+
+                CategoricalSeries newSeries = new LineSeries();
+                for (int i = 0; i < CardTrend_ChartXVals[j].Count; i++)
+                {
+                    double value = CardTrend_ChartYVals[j][i];
+                    newSeries.DataPoints.Add(new CategoricalDataPoint { Value = value, Category = CardTrend_ChartXVals[j][i], Label = CardTrend_SeriesNames[j] + " " + CardTrend_ChartXVals[j][i] + ": " + value });
+                }
                 //new comment!!!
                 newSeries.TrackBallInfoTemplate = blankDataTemplate;
                 CardChart.Series.Add(newSeries);
-            
+            }
 
             //    Loss_LineChart.HorizontalAxis.LabelInterval = 6;
             //   Loss_LineChart.HorizontalAxis.LabelFitMode = AxisLabelFitMode.None;

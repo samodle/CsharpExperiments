@@ -35,7 +35,7 @@
             <!-- Main Warehouse Display Tab -->
             <Canvas x:Name="MenuTabCanvas" Visibility="Visible">
 
-                <telerik:RadCartesianChart x:Name="CardChart" Canvas.Left="103" Canvas.Top="462" Height="178" Width="1200">
+                <telerik:RadCartesianChart x:Name="CardChart" Canvas.Left="103" Canvas.Top="406" Height="234" Width="1200">
                     <telerik:RadCartesianChart.TrackBallInfoStyle>
                         <Style TargetType="{x:Type telerik:TrackBallInfoControl}">
 
@@ -77,7 +77,7 @@
                                                  ShowGroupPanel="False"
                                                  IsFilteringAllowed="False"
                                                  RowIndicatorVisibility="Collapsed"
-                                          		CanUserFreezeColumns="False" Canvas.Left="41" Height="346"             
+                                          		CanUserFreezeColumns="False" Canvas.Left="41" Height="298"             
 >
                     <telerik:StyleManager.Theme>
                         <telerik:Windows8Theme/>
@@ -106,16 +106,17 @@
                     </telerik:RadGridView.Columns>
                 </telerik:RadGridView>
 
-                <telerik:RadGridView x:Name="Cards_GridView" Canvas.Top="95" Width="150" 
+                <telerik:RadGridView x:Name="Cards_GridView" Canvas.Top="89" Width="150" 
                                                  AutoGenerateColumns="False" 
                                                  GroupRenderMode="Flat"                                                 
                                                  ItemsSource="{Binding SelectedDecks_Visible}" 
-                                                 SelectionChanged="Gridview_SelectionChanged2"
+                                                 SelectionChanged="Gridview_SelectionChanged3"
                                                  IsReadOnly="True"
                                                  ShowGroupPanel="False"
                                                  IsFilteringAllowed="False"
                                                  RowIndicatorVisibility="Collapsed"
-                                          		CanUserFreezeColumns="False" Canvas.Left="658" Height="346"             
+                                     SelectionMode="Multiple"
+                                          		CanUserFreezeColumns="False" Canvas.Left="644" Height="298"             
 >
                     <telerik:StyleManager.Theme>
                         <telerik:Windows8Theme/>
