@@ -121,27 +121,35 @@
     <EmbeddedResource Include="RawData\1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Resource Include="RawData\10.txt">
+    <EmbeddedResource Include="RawData\10.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="RawData\3.txt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="RawData\3.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="RawData\4.txt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="RawData\4.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="RawData\6.txt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="RawData\6.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="RawData\7.txt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="RawData\7.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="RawData\8.txt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="RawData\8.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="RawData\9.txt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="RawData\9.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RawData\11.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RawData\12.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
