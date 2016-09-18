@@ -19,6 +19,17 @@ namespace CR_DeckAnalysis
 
         public List<string> CardNames = new List<string>(new string[] { "mirror", "ice spirit", "skeletons","fire spirits", "goblins", "zap", "spear goblins","minions", "arrows", "bomber", "cannon", "archers", "knight", "tesla", "mortar","minion horde", "barbarians","royal giant", "tombstone", "mini p.e.k.k.a", "valkyrie", "musketeer", "fireball", "furnace","hog rider", "wizard", "giant","bomb tower", "inferno tower", "goblin hut", "elixir collector", "rocket","barbarian hut", "three musketeers", "rage", "goblin barrel", "guards", "dark prince", "poison","baby dragon", "skeleton army","freeze", "prince","witch", "balloon", "lightning", "bowler", "giant skeleton", "x-bow","p.e.k.k.a", "golem", "log","miner", "princess","ice wizard", "lumberjack","sparky","lava hound" });
 
+        public List<CardReport> getEmptyComprehensiveCardReport()
+        {
+            List<CardReport> tmpList = new List<CardReport>();
+
+            for(int i = 0; i < CardNames.Count; i++)
+            {
+                tmpList.Add(new CardReport(CardNames[i]));
+            }
+
+            return tmpList;
+        }
 
         public double AvgCost { get; set; } = -1;
         public double Pct_Legendary { get; set; } = -1;
@@ -42,6 +53,39 @@ namespace CR_DeckAnalysis
                     return CardData[i].NumberPresent;
             }
             return -1;
+        }
+
+        public int HowManyDekcsUsingCards(string cardName1, string cardName2)
+        {
+            int retInt = 0;
+            for(int i = 0; i < Top100Decks.Count; i++)
+            {
+                if (Top100Decks[i].doesContainCard(cardName1) && Top100Decks[i].doesContainCard(cardName2))
+                    retInt++;
+            }
+            return retInt;
+        }
+
+        public int HowManyDekcsUsingCards(string cardName1, string cardName2, string cardName3)
+        {
+            int retInt = 0;
+            for (int i = 0; i < Top100Decks.Count; i++)
+            {
+                if (Top100Decks[i].doesContainCard(cardName1) && Top100Decks[i].doesContainCard(cardName2) && Top100Decks[i].doesContainCard(cardName3))
+                    retInt++;
+            }
+            return retInt;
+        }
+
+        public int HowManyDekcsUsingCards(string cardName1, string cardName2, string cardName3, string cardName4)
+        {
+            int retInt = 0;
+            for (int i = 0; i < Top100Decks.Count; i++)
+            {
+                if (Top100Decks[i].doesContainCard(cardName1) && Top100Decks[i].doesContainCard(cardName2) && Top100Decks[i].doesContainCard(cardName3) && Top100Decks[i].doesContainCard(cardName4))
+                    retInt++;
+            }
+            return retInt;
         }
 
         private void initMetrics()

@@ -32,8 +32,8 @@
             <Label x:Name="FinalDataTab" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#FFCADDE4" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="FinalTabClicked" Canvas.Left="228" Canvas.Top="15" />
 
             <Label x:Name="TitleLabel" Content="Deck Analysis" HorizontalAlignment="Left" Canvas.Left="402" Canvas.Right="20" VerticalAlignment="Top" Width="572" FontFamily="Segoe UI Light" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="1" FontWeight="Bold" Foreground="#FF4F4F4F" Canvas.Top="10"/>
-            <!-- Main Warehouse Display Tab -->
-            <Canvas x:Name="MenuTabCanvas" Visibility="Visible">
+            <!-- Main Season Display Tab -->
+            <Canvas x:Name="MenuTabCanvas" Visibility="Hidden">
 
                 <telerik:RadCartesianChart x:Name="CardChart" Canvas.Left="103" Canvas.Top="406" Height="234" Width="1200">
                     <telerik:RadCartesianChart.TrackBallInfoStyle>
@@ -64,10 +64,43 @@
 
                 </telerik:RadCartesianChart>
 
+                <Image x:Name="cardImage" Height="100" Canvas.Left="874" Canvas.Top="346" Width="100"/>
+                <Image x:Name="cardImage1" Height="100" Canvas.Left="1015" Canvas.Top="228" Width="100"/>
+                <Image x:Name="cardImage2" Height="100" Canvas.Left="858" Canvas.Top="158" Width="100"/>
+                <Image x:Name="cardImage3" Height="100" Canvas.Left="1203" Canvas.Top="326" Width="100"/>
+
+                <telerik:RadGridView x:Name="Cards_GridView" Canvas.Top="89" Width="150" 
+                                                 AutoGenerateColumns="False" 
+                                                 GroupRenderMode="Flat"                                                 
+                                                 ItemsSource="{Binding SelectedDecks_Visible}" 
+                                                 SelectionChanged="Gridview_SelectionChanged3"
+                                                 IsReadOnly="True"
+                                                 ShowGroupPanel="False"
+                                                 IsFilteringAllowed="False"
+                                                 RowIndicatorVisibility="Collapsed"
+                                     SelectionMode="Multiple"
+                                          		CanUserFreezeColumns="False" Canvas.Left="644" Height="298"             
+>
+                    <telerik:StyleManager.Theme>
+                        <telerik:Windows8Theme/>
+                    </telerik:StyleManager.Theme>
+
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Name}" 
+						Header="Card"
+						Width="80"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding NumberPresent}" 
+						Header="#"
+						Width="70"/>
+
+
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+
 
 
                 <!--  MouseDown="startTest" <Label x:Name="DemoButton" Content="Launch Demo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="LaunchDemoClicked" Canvas.Left="151" Canvas.Top="87"/> -->
-                <Label x:Name="CreateButton" Content="Initialize" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" Canvas.Left="1262" Canvas.Top="89"/>
+                <Label x:Name="CreateButton" Content="Initialize" MouseDown="startTest" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" Canvas.Left="1262" Canvas.Top="89"/>
                 <telerik:RadGridView x:Name="Seasons_GridView" Canvas.Top="89" Width="527" 
                                                  AutoGenerateColumns="False" 
                                                  GroupRenderMode="Flat"                                                 
@@ -106,17 +139,62 @@
                     </telerik:RadGridView.Columns>
                 </telerik:RadGridView>
 
-                <telerik:RadGridView x:Name="Cards_GridView" Canvas.Top="89" Width="150" 
+
+            </Canvas>
+            <!-- Cards Tab -->
+            <Canvas x:Name="RawTabCanvas" Visibility="Visible">
+
+                <Label x:Name="SingleClick" Content="Single" HorizontalAlignment="Left" VerticalAlignment="Top" Width="43" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="SingleClicked" Canvas.Left="1022" Canvas.Top="23"/>
+                <Label x:Name="DoubleClick" Content="Pairs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="39" Background="#FFCADDE4" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand"   MouseDown="DoubleClicked" Canvas.Left="1070" Canvas.Top="23" />
+                <Label x:Name="TrippleClick" Content="Trios" HorizontalAlignment="Left" VerticalAlignment="Top" Width="39" Background="#FFCADDE4" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand"   MouseDown="TrippleClicked" Canvas.Left="1114" Canvas.Top="23" />
+                <Label x:Name="QuadClick" Content="Quads" HorizontalAlignment="Left" VerticalAlignment="Top" Width="39" Background="#FFCADDE4" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand"   MouseDown="QuadClicked" Canvas.Left="1158" Canvas.Top="23" />
+
+
+                <telerik:RadCartesianChart x:Name="CardChart_T2" Canvas.Left="151" Canvas.Top="68" Height="556" Width="1023">
+                    <telerik:RadCartesianChart.TrackBallInfoStyle>
+                        <Style TargetType="{x:Type telerik:TrackBallInfoControl}">
+
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}"
+                            								FontSize="11"
+                            								Foreground="Black"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </telerik:RadCartesianChart.TrackBallInfoStyle>
+
+                    <telerik:RadCartesianChart.Behaviors>
+                        <telerik:ChartPanAndZoomBehavior ZoomMode="Horizontal" PanMode="Horizontal"/>
+                        <telerik:ChartTrackBallBehavior ShowTrackInfo="True"
+                            				ShowIntersectionPoints="True"
+                            				TrackInfoUpdated="ChartTrackBallBehavior_InfoUpdated_T2"/>
+                    </telerik:RadCartesianChart.Behaviors>
+
+                    <telerik:RadCartesianChart.HorizontalAxis>
+                        <telerik:CategoricalAxis MajorTickStyle="{StaticResource TransparentTickStyle}" />
+                    </telerik:RadCartesianChart.HorizontalAxis>
+
+                </telerik:RadCartesianChart>
+
+                <Image x:Name="cardImage_T2" Height="100" Canvas.Left="1220" Canvas.Top="68" Width="100"/>
+                <Image x:Name="cardImage1_T2" Height="100" Canvas.Left="1220" Canvas.Top="200" Width="100"/>
+                <Image x:Name="cardImage2_T2" Height="100" Canvas.Left="1220" Canvas.Top="360" Width="100"/>
+                <Image x:Name="cardImage3_T2" Height="100" Canvas.Left="1220" Canvas.Top="524" Width="100"/>
+
+                <telerik:RadGridView x:Name="Cards_GridView_T2" Canvas.Top="68" Width="102" 
                                                  AutoGenerateColumns="False" 
                                                  GroupRenderMode="Flat"                                                 
-                                                 ItemsSource="{Binding SelectedDecks_Visible}" 
-                                                 SelectionChanged="Gridview_SelectionChanged3"
+                                                 ItemsSource="{Binding SelectedDecks_Visible_T2}" 
+                                                 SelectionChanged="Gridview_SelectionChanged3_T2"
                                                  IsReadOnly="True"
                                                  ShowGroupPanel="False"
                                                  IsFilteringAllowed="False"
                                                  RowIndicatorVisibility="Collapsed"
-                                     SelectionMode="Multiple"
-                                          		CanUserFreezeColumns="False" Canvas.Left="644" Height="298"             
+                                                SelectionMode="Multiple"
+                                          		CanUserFreezeColumns="False" Canvas.Left="29" Height="556"             
 >
                     <telerik:StyleManager.Theme>
                         <telerik:Windows8Theme/>
@@ -125,19 +203,101 @@
                     <telerik:RadGridView.Columns>
                         <telerik:GridViewDataColumn DataMemberBinding="{Binding Name}" 
 						Header="Card"
-						Width="80"/>
-                        <telerik:GridViewDataColumn DataMemberBinding="{Binding NumberPresent}" 
-						Header="#"
-						Width="70"/>
-
+						Width="100"/>
 
                     </telerik:RadGridView.Columns>
                 </telerik:RadGridView>
 
+                <telerik:RadGridView x:Name="Cards_GridView_T3" Canvas.Top="68" Width="303" 
+                                                 AutoGenerateColumns="False" 
+                                                 GroupRenderMode="Flat"                                                 
+                                                 ItemsSource="{Binding TopCardPairs_Display}" 
+                                                 SelectionChanged="Gridview_SelectionChanged3_T2"
+                                                 IsReadOnly="True"
+                                                 ShowGroupPanel="False"
+                                                 IsFilteringAllowed="False"
+                                                 RowIndicatorVisibility="Collapsed"
+                                                SelectionMode="Multiple"
+                                          		CanUserFreezeColumns="False" Canvas.Left="29" Height="556"             
+>
+                    <telerik:StyleManager.Theme>
+                        <telerik:Windows8Theme/>
+                    </telerik:StyleManager.Theme>
 
-            </Canvas>
-            <!-- Unused Tab -->
-            <Canvas x:Name="RawTabCanvas" Visibility="Hidden">
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding DisplayName}" 
+						Header="Card"
+						Width="160"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding AvgNumberPresent}" 
+						Header="Avg."
+						Width="70"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding LastNumberPresent}" 
+						Header="Last"
+						Width="70"/>
+
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+
+                <telerik:RadGridView x:Name="Cards_GridView_T4" Canvas.Top="68" Width="397" 
+                                                 AutoGenerateColumns="False" 
+                                                 GroupRenderMode="Flat"                                                 
+                                                 ItemsSource="{Binding TopCardTrios_Display}" 
+                                            
+                                                 IsReadOnly="True"
+                                                 ShowGroupPanel="False"
+                                                 IsFilteringAllowed="False"
+                                                 RowIndicatorVisibility="Collapsed"
+                                                SelectionMode="Multiple"
+                                          		CanUserFreezeColumns="False" Canvas.Left="29" Height="556"             
+>
+                    <telerik:StyleManager.Theme>
+                        <telerik:Windows8Theme/>
+                    </telerik:StyleManager.Theme>
+
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding DisplayName}" 
+						Header="Card"
+						Width="260"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding AvgNumberPresent}" 
+						Header="Avg."
+						Width="70"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding LastNumberPresent}" 
+						Header="Last"
+						Width="70"/>
+
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+
+                <telerik:RadGridView x:Name="Cards_GridView_T5" Canvas.Top="68" Width="397" 
+                                                 AutoGenerateColumns="False" 
+                                                 GroupRenderMode="Flat"                                                 
+                                                 ItemsSource="{Binding TopCardQuads_Display}" 
+                                                 
+                                                 IsReadOnly="True"
+                                                 ShowGroupPanel="False"
+                                                 IsFilteringAllowed="False"
+                                                 RowIndicatorVisibility="Collapsed"
+                                                SelectionMode="Multiple"
+                                          		CanUserFreezeColumns="False" Canvas.Left="29" Height="556"             
+>
+                    <telerik:StyleManager.Theme>
+                        <telerik:Windows8Theme/>
+                    </telerik:StyleManager.Theme>
+
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding DisplayName}" 
+						Header="Card"
+						Width="260"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding AvgNumberPresent}" 
+						Header="Avg."
+						Width="70"/>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding LastNumberPresent}" 
+						Header="Last"
+						Width="70"/>
+
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+
 
 
             </Canvas>
@@ -145,6 +305,7 @@
             <!-- Settings Tab -->
             <Canvas x:Name="FinalTabCanvas" Visibility="Hidden">
             </Canvas>
+
 
         </Canvas>
     </Grid>
