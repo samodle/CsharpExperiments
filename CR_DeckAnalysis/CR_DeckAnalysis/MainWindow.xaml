@@ -99,7 +99,7 @@
 
 
 
-                <!--  MouseDown="startTest" <Label x:Name="DemoButton" Content="Launch Demo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="LaunchDemoClicked" Canvas.Left="151" Canvas.Top="87"/> -->
+                 <Label x:Name="DemoButton" Content="Launch Demo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" MouseDown="startTest" Canvas.Left="151" Canvas.Top="87"/> 
                 <Label x:Name="CreateButton" Content="Initialize" MouseDown="startTest" HorizontalAlignment="Left" VerticalAlignment="Top" Width="72" Background="#25A0DA" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="Hand" Canvas.Left="1262" Canvas.Top="89"/>
                 <telerik:RadGridView x:Name="Seasons_GridView" Canvas.Top="89" Width="527" 
                                                  AutoGenerateColumns="False" 

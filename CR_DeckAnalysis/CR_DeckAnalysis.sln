@@ -5,7 +5,14 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CR_DeckAnalysis", "CR_DeckAnalysis\CR_DeckAnalysis.csproj", "{BC36A253-2BB6-4BB6-9578-1642667878C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashBot", "ClashBot\ClashBot.csproj", "{EB3B10EA-EA9B-4DC4-9C69-B4907CC6DB9D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ClashResources", "ClashResources\ClashResources.shproj", "{3B5D4A9D-BB5D-4675-9B27-58BDA9EE4A28}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ClashResources\ClashResources.projitems*{3b5d4a9d-bb5d-4675-9b27-58bda9ee4a28}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -15,6 +22,10 @@ Global
 		{BC36A253-2BB6-4BB6-9578-1642667878C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC36A253-2BB6-4BB6-9578-1642667878C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC36A253-2BB6-4BB6-9578-1642667878C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB3B10EA-EA9B-4DC4-9C69-B4907CC6DB9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB3B10EA-EA9B-4DC4-9C69-B4907CC6DB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB3B10EA-EA9B-4DC4-9C69-B4907CC6DB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB3B10EA-EA9B-4DC4-9C69-B4907CC6DB9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -142,12 +142,13 @@ namespace CR_DeckAnalysis
         public MainWindow()
         {
             InitializeComponent();
-            startTest();
+         //   startTest();
         }
         private void startTest(object sender, EventArgs e)
         {
             // setCardImageSource("mini p.e.k.k.a");
-            populateCardComboData();
+            startTest();
+          //  populateCardComboData();
         }
 
 
@@ -169,6 +170,8 @@ namespace CR_DeckAnalysis
             List<Deck> importList10 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\10.txt"));
             List<Deck> importList11 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\11.txt"));
             List<Deck> importList12 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\12.txt"));
+            List<Deck> importList13 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\13.txt"));
+            List<Deck> importList14 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\14.txt"));
 
             DeckSummaries.Add(new SeasonSummary(importList1, 1));
             DeckSummaries.Add(new SeasonSummary(importList3, 3));
@@ -180,6 +183,8 @@ namespace CR_DeckAnalysis
             DeckSummaries.Add(new SeasonSummary(importList10, 10));
             DeckSummaries.Add(new SeasonSummary(importList11, 11));
             DeckSummaries.Add(new SeasonSummary(importList12, 12));
+            DeckSummaries.Add(new SeasonSummary(importList13, 13));
+            DeckSummaries.Add(new SeasonSummary(importList14, 14));
 
             for (int i = 0; i < DeckSummaries.Count; i++)
             {
@@ -193,7 +198,7 @@ namespace CR_DeckAnalysis
             }
 
 
-            populateCardComboData();
+         //   populateCardComboData();
 
         }
 

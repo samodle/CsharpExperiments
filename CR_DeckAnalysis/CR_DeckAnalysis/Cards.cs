@@ -278,7 +278,7 @@ namespace CR_DeckAnalysis
                     break;
 
                 case "bowler":
-                    Cost = 6;
+                    Cost = 5;
                     Rarity = CardRarity.Epic;
                     break;
 
@@ -344,8 +344,22 @@ namespace CR_DeckAnalysis
                     Rarity = CardRarity.Legendary;
                     break;
 
+                case "mega minion":
+                    Cost = 3;
+                    Rarity = CardRarity.Rare;
+                    break;
+
+                case "inferno dragon":
+                    Cost = 4;
+                    Rarity = CardRarity.Legendary;
+                    break;
+
                 default:
-                    throw new Exception("Unknown Name");
+                    /// Console.Write(this.Name);
+                    //  Cost = 50;
+                    // Rarity = CardRarity.Common;
+                    // break;
+                    throw new Exception("Unknown Name: " + this.Name);
 
             }
         }
