@@ -107,7 +107,7 @@ namespace ClashBot
                     for (int i = 0; i < targetDecks.Count; i++)
                     {
                         deckString = DeckSummaries[DeckSummaries.Count - 1].Top100Decks[targetDecks[i]].toString_Cards();
-                        await e.Channel.SendMessage(deckString);
+                        await e.Channel.SendMessage("Deck Rank #" + targetDecks[i] + " (" + (i+1) + " of " + targetDecks.Count + "): " + deckString);
                     }
                 }
       
@@ -127,46 +127,74 @@ namespace ClashBot
             .Parameter("GreetedPerson", ParameterType.Required) //as an argument, we have a person we want to greet
             .Do(async e =>
             {
+                string rawInput = e.GetArg("GreetedPerson");
+                string cardName = rawInput.Replace('-', ' ');
 
-                string cardName = e.GetArg("GreetedPerson");
-                await e.Channel.SendFile("img/" + cardName + ".png");
-                cardName = cardName.Replace('-', ' ');
-                //int cardIndex = -1;
-
-                for (int i = 0; i < DeckSummaries[DeckSummaries.Count - 1].CardData.Count; i++)
+                if (CardNames.Contains(cardName))
                 {
-                    if (DeckSummaries[DeckSummaries.Count - 1].CardData[i].Name == cardName)
+                    await e.Channel.SendFile("img/" + rawInput + ".png");
+
+                    for (int i = 0; i < DeckSummaries[DeckSummaries.Count - 1].CardData.Count; i++)
                     {
-                        double currentUsage = DeckSummaries[DeckSummaries.Count - 1].CardData[i].NumberPresent;
-                        double previousUsage = DeckSummaries[DeckSummaries.Count - 2].CardData[i].NumberPresent;
-                        double usageDelta = currentUsage - previousUsage;
-                        await e.Channel.SendMessage(cardName + " - Cost: " + DeckSummaries[DeckSummaries.Count - 1].CardData[i].Cost + ". Last season this card was in " + currentUsage + "% of the top 100 decks. This is a change of " + usageDelta + "% from the previous season. Try '!top100 " + cardName + "' to see which decks used this card.");
-                        break;
+                        if (DeckSummaries[DeckSummaries.Count - 1].CardData[i].Name == cardName)
+                        {
+                            double currentUsage = DeckSummaries[DeckSummaries.Count - 1].CardData[i].NumberPresent;
+                            double previousUsage = DeckSummaries[DeckSummaries.Count - 2].CardData[i].NumberPresent;
+                            double usageDelta = currentUsage - previousUsage;
+
+                            if (currentUsage > 0)
+                            {
+                                //await e.Channel.SendMessage("Cost: " + DeckSummaries[DeckSummaries.Count - 1].CardData[i].Cost + ". Last season " + cardName + " was in " + currentUsage + "% of the top 100 decks, a change of " + usageDelta + "% from the previous season. Try '!top100 " + cardName + "' to see which top 100 decks used " + cardName + ".");
+                                await e.Channel.SendMessage("Cost: " + DeckSummaries[DeckSummaries.Count - 1].CardData[i].Cost + ". Last season " + cardName + " was in " + currentUsage + "% of the top 100 decks, a change of " + usageDelta + "% from the previous season.");
+
+                                for (int ix = 0; ix < DeckSummaries[DeckSummaries.Count - 1].Top100Decks.Count; ix++)
+                                {
+                                    if (DeckSummaries[DeckSummaries.Count - 1].Top100Decks[ix].doesContainCard(cardName))
+                                    {
+                                        string deckString = DeckSummaries[DeckSummaries.Count - 1].Top100Decks[ix].toString_Cards();
+                                        await e.Channel.SendMessage("Top Ranked Deck Using " + cardName + " #" +ix + ": " + deckString);
+
+                                        break;
+                                    }
+                                }
+                                await e.Channel.SendMessage(" Try '!top100 " + cardName + "' to see the rest of the top 100 decks using " + cardName + ".");
+
+                            }
+                            else
+                            {
+                                await e.Channel.SendMessage("Cost: " + DeckSummaries[DeckSummaries.Count - 1].CardData[i].Cost + ". Last season " + cardName + " wasn't used in the top 100 decks!  Change of " + usageDelta + "% from the previous season.");
+                            }
+                            break;
+                        }
                     }
+
+
+
+                    //now lets get the links!!!
+                    List<Tuple<string, string, string>> l = new List<Tuple<string, string, string>>();
+                    for (int i = 0; i < CardLinks.Count; i++)
+                    {
+                        if (CardLinks[i].Item1 == cardName)
+                        {
+                            l.Add(CardLinks[i]);
+                        }
+
+                    }
+                    if (l.Count > 0)
+                    {
+                        for (int i = 0; i < l.Count; i++)
+                        {
+                            await e.Channel.SendMessage(l[i].Item3 + " - " + l[i].Item2);
+
+                        }
+                    }
+
                 }
-
-
-
-                //now lets get the links!!!
-                List<Tuple<string, string, string>> l = new List<Tuple<string, string, string>>();
-                for(int i = 0; i < CardLinks.Count; i++)
+                else
                 {
-                    if (CardLinks[i].Item1 == cardName)
-                    {
-                        l.Add(CardLinks[i]);
-                    }
-
+                    await e.Channel.SendMessage("Sorry, " + e.User.Name + " , I'm unable to identify " + rawInput + ". oden11 is lazy so I can't handle spaces. Make sure all spaces are replaced with the '-' character. For example, 'hog rider' should be 'hog-rider'.");
                 }
-                if (l.Count > 0)
-                {
-                    for (int i = 0; i < l.Count; i++)
-                    {
-                        await e.Channel.SendMessage(l[i].Item3 + " - " + l[i].Item2);
-
-                    }
-                }
-
-                // await e.Channel.SendMessage(e.User.Name + " greets " + e.GetArg("GreetedPerson"));
+                // 
                 //sends a message to channel with the given text
             });
 
