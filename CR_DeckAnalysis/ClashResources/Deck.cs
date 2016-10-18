@@ -33,6 +33,17 @@ namespace CR_DeckAnalysis
             return Rank + ": " + Rank + ", Avg. Cost: " + AvgCost() ;
         }
 
+        public string toString_Cards()
+        {
+            string x = "";
+            for(int i = 0; i < Cards.Count - 1; i++)
+            {
+                x += Cards[i].Name + ", ";
+            }
+            x += Cards[Cards.Count - 1].Name;
+            return x;
+        }
+
         public void addCard(Card c)
         {
             Cards.Add(c);

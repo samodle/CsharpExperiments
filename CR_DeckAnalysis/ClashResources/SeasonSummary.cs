@@ -37,6 +37,25 @@ namespace CR_DeckAnalysis
         public double Pct_Rare { get; set; } = -1;
         public double Pct_Common { get; set; } = -1;
 
+        public double getRarity(CardRarity r)
+        {
+            switch (r)
+            {
+                case CardRarity.Common:
+                    return Pct_Common;
+                case CardRarity.Epic:
+                    return Pct_Epic;
+                case CardRarity.Rare:
+                    return Pct_Rare;
+                case CardRarity.Legendary:
+                    return Pct_Legendary;
+
+                default:
+                    return -1;
+            }
+        }
+
+
         public SeasonSummary(List<Deck> deckList, int seasonNum)
         {
             this.SeasonNumber = seasonNum;

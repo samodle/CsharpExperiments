@@ -9,5 +9,12 @@
     <Import_RootNamespace>ClashResources</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CardLinks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardReport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cards.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Deck.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JSON_IO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SeasonSummary.cs" />
   </ItemGroup>
 </Project>

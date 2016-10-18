@@ -11,6 +11,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ClashResources", "ClashReso
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ClashResources\ClashResources.projitems*{bc36a253-2bb6-4bb6-9578-1642667878c8}*SharedItemsImports = 4
+		ClashResources\ClashResources.projitems*{eb3b10ea-ea9b-4dc4-9c69-b4907cc6db9d}*SharedItemsImports = 4
 		ClashResources\ClashResources.projitems*{3b5d4a9d-bb5d-4675-9b27-58bda9ee4a28}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
