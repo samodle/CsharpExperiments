@@ -10,6 +10,8 @@ using System.Windows.Media.Imaging;
 using Telerik.Charting;
 using Telerik.Windows.Controls.ChartView;
 
+using System.Net;
+
 namespace CR_DeckAnalysis
 {
     /// <summary>
@@ -142,12 +144,22 @@ namespace CR_DeckAnalysis
         public MainWindow()
         {
             InitializeComponent();
-         //   startTest();
+            //   startTest();
+
+
         }
         private void startTest(object sender, EventArgs e)
         {
+
+
+            List<string> x = WebCrawl.HtmlPull.htmlTest();
+            foreach (string s in x)
+            {
+                MessageBox.Show(s);
+            }
+
             // setCardImageSource("mini p.e.k.k.a");
-            startTest();
+           startTest();
           //  populateCardComboData();
         }
 

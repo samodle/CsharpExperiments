@@ -9,11 +9,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashBot", "ClashBot\ClashB
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ClashResources", "ClashResources\ClashResources.shproj", "{3B5D4A9D-BB5D-4675-9B27-58BDA9EE4A28}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WebCrawl", "WebCrawl\WebCrawl.shproj", "{3B4C2723-4986-41B9-8A21-5C3E25603C76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatPullTest", "DatPullTest\DatPullTest.csproj", "{D69E02C3-3D03-465B-B5F1-F824AE3D2DCC}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		WebCrawl\WebCrawl.projitems*{bc36a253-2bb6-4bb6-9578-1642667878c8}*SharedItemsImports = 4
 		ClashResources\ClashResources.projitems*{bc36a253-2bb6-4bb6-9578-1642667878c8}*SharedItemsImports = 4
+		WebCrawl\WebCrawl.projitems*{eb3b10ea-ea9b-4dc4-9c69-b4907cc6db9d}*SharedItemsImports = 4
 		ClashResources\ClashResources.projitems*{eb3b10ea-ea9b-4dc4-9c69-b4907cc6db9d}*SharedItemsImports = 4
 		ClashResources\ClashResources.projitems*{3b5d4a9d-bb5d-4675-9b27-58bda9ee4a28}*SharedItemsImports = 13
+		WebCrawl\WebCrawl.projitems*{d69e02c3-3d03-465b-b5f1-f824ae3d2dcc}*SharedItemsImports = 4
+		ClashResources\ClashResources.projitems*{d69e02c3-3d03-465b-b5f1-f824ae3d2dcc}*SharedItemsImports = 4
+		WebCrawl\WebCrawl.projitems*{3b4c2723-4986-41b9-8a21-5c3e25603c76}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +37,10 @@ Global
 		{EB3B10EA-EA9B-4DC4-9C69-B4907CC6DB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB3B10EA-EA9B-4DC4-9C69-B4907CC6DB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB3B10EA-EA9B-4DC4-9C69-B4907CC6DB9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D69E02C3-3D03-465B-B5F1-F824AE3D2DCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D69E02C3-3D03-465B-B5F1-F824AE3D2DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D69E02C3-3D03-465B-B5F1-F824AE3D2DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D69E02C3-3D03-465B-B5F1-F824AE3D2DCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

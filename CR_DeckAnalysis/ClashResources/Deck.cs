@@ -13,7 +13,19 @@ namespace CR_DeckAnalysis
         public List<Card> Cards { get; set; } = new List<Card>();
         public int Season { get; set; } = -1;
         public string PlayerName { get; set; } = "";
+
+        public string Nickname { get; set; } = "";
         #endregion
+        public int Arena()
+        {
+            int x = 0;
+            for(int i = 0; i < Cards.Count; i++)
+            {
+                if (Cards[i].Arena > x)
+                    x = Cards[i].Arena;
+            }
+            return x;
+        }
 
         public bool doesContainCard(string cardName)
         {

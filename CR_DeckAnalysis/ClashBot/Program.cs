@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CR_DeckAnalysis;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-
-namespace ClashBot
+﻿namespace ClashBot
 {
     class Program
     {
