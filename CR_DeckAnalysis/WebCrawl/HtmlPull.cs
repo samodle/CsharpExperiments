@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CR_DeckAnalysis;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -7,27 +8,105 @@ using System.Text.RegularExpressions;
 
 namespace WebCrawl
 {
+ 
 
     public static class HtmlPull
     {
+
+        public static CardWebData getCardFromWebData(string name, string urlX)
+        {
+            CardWebData c = new CardWebData(name);
+
+            string htmlCode;
+            using (WebClient client = new WebClient())
+            {
+                htmlCode = client.DownloadString(urlX);
+            }
+
+            
+            string summaryString = getStringBetweenKeys("Summary</span></h2>", ">History</span></h2>", ref htmlCode);
+
+            string statsString = getStringBetweenKeys("Statistics</span></h2>", "unit-statistics-table", ref htmlCode);
+            int rt = statsString.Length / 2;
+            string St = statsString.Substring(rt, statsString.Length - rt);
+
+            string keyA = "<tr>";
+            string keyB = "</tr>";
+
+            int pFrom = St.IndexOf(keyA) + keyA.Length;
+            int pTo = St.IndexOf(keyB);
+
+            if (pTo < pFrom) //error prevent
+            {
+                int tmpFrom = pFrom - keyA.Length;
+                St = St.Substring(tmpFrom, St.Length - pFrom);
+                pFrom = St.IndexOf(keyA) + keyA.Length;
+                pTo = St.IndexOf(keyB);
+            }
+            St = St.Substring(pFrom, pTo - pFrom);
+
+
+            List<string> Str = extractStatFacts(St);
+            c.Stats = getStatsFromStringList("goblins", Str);
+
+
+
+
+            string fullstatsString = getStringBetweenKeys("<td>1</td><td>", "<td>13</td><td>", ref htmlCode, -19, 50);
+
+
+            c.LevelData = getStatisticsFromString(ref fullstatsString);
+            c.Trivia = extractFunFacts(summaryString);
+
+
+
+            return c;
+        }
+
         public static List<string> htmlTest()
         {
             List<string> retList = new List<string>();
             string htmlCode;
             using (WebClient client = new WebClient())
             {
-                htmlCode = client.DownloadString("http://clashroyale.wikia.com/wiki/Spear_Goblins");
+              //  htmlCode = client.DownloadString("http://clashroyale.wikia.com/wiki/Spear_Goblins");
+                htmlCode = client.DownloadString("http://clashroyale.wikia.com/wiki/Ice_Spirit");
             }
 
 
             string summaryString = getStringBetweenKeys("Summary</span></h2>", ">History</span></h2>", ref htmlCode);
 
             string statsString = getStringBetweenKeys("Statistics</span></h2>", "unit-statistics-table", ref htmlCode);
+            int rt = statsString.Length / 2;
+            string St = statsString.Substring(rt, statsString.Length - rt);
+
+            string keyA = "<tr>";
+            string keyB = "</tr>";
+
+            int pFrom = St.IndexOf(keyA) + keyA.Length;
+            int pTo = St.IndexOf(keyB);
+
+            if (pTo < pFrom) //error prevent
+            {
+                int tmpFrom = pFrom - keyA.Length;
+                St = St.Substring(tmpFrom, St.Length - pFrom);
+                pFrom = St.IndexOf(keyA) + keyA.Length;
+                pTo = St.IndexOf(keyB);
+            }
+            St = St.Substring(pFrom, pTo - pFrom);
+
+
+            List<string> Str = extractStatFacts(St);
+            CardStats xxxx = getStatsFromStringList("goblins", Str);
+
+
+
+
             string fullstatsString = getStringBetweenKeys("<td>1</td><td>", "<td>13</td><td>", ref htmlCode, -19, 50);
 
-            retList.Add(summaryString);
-            retList.Add(statsString);
-            retList.Add(fullstatsString);
+            //    retList.Add(summaryString);
+            retList.Add(St);
+            //    retList.Add(fullstatsString);
 
             var xy = getStatisticsFromString(ref fullstatsString);
             var yz = extractFunFacts(summaryString);
@@ -36,6 +115,92 @@ namespace WebCrawl
 
 
         }
+
+
+        public static CardStats getStatsFromStringList(string name, List<string> source)
+        {
+            CardStats r;
+
+            int nCost;
+            double nHitSpeed;
+            string nSpeed = source[3];
+            double nDeployTime;
+            double nRange;
+
+            Int32.TryParse(source[1], out nCost);
+             double.TryParse(source[2].Replace(" sec",""), out nHitSpeed);
+            double.TryParse(source[4].Replace(" sec",""), out nDeployTime);
+            double.TryParse(source[5], out nRange);
+
+            r.Name = name;
+            r.Cost = nCost;
+            r.HitSpeed = nHitSpeed;
+            r.Speed = nSpeed;
+            r.DeployTime = nDeployTime;
+            r.Range = nRange;
+
+            return r;
+
+        }
+
+        public static List<string> extractStatFacts(string source)
+        {
+            string St = source;
+            var retList = new List<string>();
+
+            string keyA = "<td>";
+            string keyB = "</td>";
+
+            int pFrom = St.IndexOf(keyA) + keyA.Length;
+            int pTo = St.IndexOf(keyB);
+
+            string levelString;
+            int initLevelStringLength;
+
+            levelString = St.Substring(pFrom, pTo - pFrom);
+            initLevelStringLength = levelString.Length;
+
+            while (pFrom > -1 && pTo > -1)
+            {
+                retList.Add(levelString);
+
+                if (St.Length > initLevelStringLength)
+                {
+                    St = St.Substring(initLevelStringLength);
+
+                    pFrom = St.IndexOf(keyA) + keyA.Length;
+                    pTo = St.IndexOf(keyB);
+
+                    if (pTo < pFrom) //error prevent
+                    {
+                        int tmpFrom = pFrom - keyA.Length;
+                        St = St.Substring(tmpFrom, St.Length - pFrom);
+                        pFrom = St.IndexOf(keyA) + keyA.Length;
+                        pTo = St.IndexOf(keyB);
+                    }
+                    if (pTo > -1 && pFrom > -1)
+                    {
+                        levelString = St.Substring(pFrom, pTo - pFrom);
+                        initLevelStringLength = levelString.Length;
+                    }
+                }
+                else
+                {
+                    pTo = -4;
+                }
+            }
+
+            return retList;
+        }
+
+
+
+
+
+
+
+
+
 
         #region FunFacts
 
@@ -54,7 +219,7 @@ namespace WebCrawl
             int initLevelStringLength;
 
             levelString = St.Substring(pFrom, pTo - pFrom);
-            initLevelStringLength = levelString.Length ;
+            initLevelStringLength = levelString.Length;
 
             while (pFrom > -1 && pTo > -1)
             {
@@ -68,14 +233,15 @@ namespace WebCrawl
                     pFrom = St.IndexOf(keyA) + keyA.Length;
                     pTo = St.IndexOf(keyB);
 
-                    if(pTo < pFrom) //error prevent
+                    if (pTo < pFrom) //error prevent
                     {
                         int tmpFrom = pFrom - keyA.Length;
                         St = St.Substring(tmpFrom, St.Length - pFrom);
                         pFrom = St.IndexOf(keyA) + keyA.Length;
                         pTo = St.IndexOf(keyB);
                     }
-                    if (pTo > -1 && pFrom > -1) {
+                    if (pTo > -1 && pFrom > -1)
+                    {
                         levelString = St.Substring(pFrom, pTo - pFrom);
                         initLevelStringLength = levelString.Length;
                     }
@@ -94,11 +260,11 @@ namespace WebCrawl
             string s = source;
 
             //string input = "Give [Me Some] Purple (And More) Elephants";
-        //    string regex = "(\\<.*\\>)|(\".*\")|('.*')|(\\(.*\\))";
-          /*  string regex = "(\\<.*\\>)";
-            string output = Regex.Replace(s, regex, "");
-            */
-        
+            //    string regex = "(\\<.*\\>)|(\".*\")|('.*')|(\\(.*\\))";
+            /*  string regex = "(\\<.*\\>)";
+              string output = Regex.Replace(s, regex, "");
+              */
+
             s = RemoveBetween(s, '<', '>');
 
             return s;
@@ -111,7 +277,7 @@ namespace WebCrawl
             return regex.Replace(s, string.Empty);
         }
 
-  
+
 
         /*  public static string removeBetweenTwoChars(char a, char b, string source)
           {
@@ -226,9 +392,12 @@ namespace WebCrawl
         {
 
             int pFrom = St.IndexOf(keyA) + keyA.Length + offsetA;
-            int pTo = St.LastIndexOf(keyB) + offsetB;
+            int pTo = St.LastIndexOf(keyB) + offsetB; //was lastindexof
 
-            return St.Substring(pFrom, pTo - pFrom);
+            if (pTo > -1 && pFrom > -1)
+                return St.Substring(pFrom, pTo - pFrom);
+            else
+                return "";
         }
 
         public static string getLastStringBetweenKeys(string keyA, string keyB, ref string St)

@@ -8,6 +8,28 @@ namespace CR_DeckAnalysis
 {
     public static class IO
     {
+
+
+        public static void CardWebDataList_Export(List<CardWebData> exportObject, string FileName, string FileType = ".txt")
+        {
+            string jsonData = JsonConvert.SerializeObject(exportObject);
+            string fileName = FileName + FileType;
+            FileStream fcreate = File.Open(fileName, FileMode.Create);
+            using (StreamWriter writer = new StreamWriter(fcreate))
+            {
+                writer.Write(jsonData);
+                writer.Close();
+            }
+        }
+        public static List<CardWebData> CardWebDataList_Import(string filePath)
+        {
+            List<CardWebData> tmpData;
+            string rawJSONstring = File.ReadAllText(filePath);
+            tmpData = JsonConvert.DeserializeObject<List<CardWebData>>(rawJSONstring);
+            return tmpData;
+        }
+
+
         public static void StringList_Export(List<Tuple<string, string, string, string>> exportObject, string FileName, string FileType = ".txt")
         {
             string jsonData = JsonConvert.SerializeObject(exportObject);

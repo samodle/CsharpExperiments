@@ -11,6 +11,7 @@ using Telerik.Charting;
 using Telerik.Windows.Controls.ChartView;
 
 using System.Net;
+using ClashResources;
 
 namespace CR_DeckAnalysis
 {
@@ -151,16 +152,83 @@ namespace CR_DeckAnalysis
         private void startTest(object sender, EventArgs e)
         {
 
+            List<string> CardNames = new List<string>(new string[] { "spear goblins", "skeletons", "fire spirits", "goblins", "zap",  "minions", "ice spirit", "arrows", "bomber", "cannon", "archers", "knight", "tesla", "mortar", "minion horde", "barbarians", "royal giant", "tombstone", "mini p.e.k.k.a", "valkyrie", "musketeer", "fireball", "furnace", "hog rider", "wizard", "giant", "bomb tower", "inferno tower", "goblin hut", "elixir collector", "rocket", "barbarian hut", "three musketeers", "rage", "goblin barrel", "guards", "dark prince", "poison", "baby dragon", "skeleton army", "freeze", "prince", "witch", "balloon", "lightning", "bowler", "giant skeleton", "x-bow", "P.E.K.K.A", "golem", "the log", "miner", "princess", "ice wizard", "lumberjack", "sparky", "lava hound", "mega minion", "inferno dragon", "graveyard", "ice golem", "mirror" });
 
-            List<string> x = WebCrawl.HtmlPull.htmlTest();
-            foreach (string s in x)
+            // List<CardWebData> xx = new List<CardWebData>();
+
+            var xxx = DeckList.getRecommendedDecks();
+
+
+
+            List<Deck> dList = DeckList.getRecommendedDecks();
+
+            for(int i = 0; i < dList.Count; i++)
             {
-                MessageBox.Show(s);
+                var fileList = new string[8];
+                for(int j = 0; j < dList[i].Cards.Count; j++)
+                {
+                    string c = dList[i].Cards[j].Name.Replace(' ', '-');
+                    c = c.Replace(".", "");
+                    fileList[j] = "C:/Users/odle.so.1/Downloads/cards/img/" + c + ".png";
+
+                 //   System.Drawing.Image image =  System.Drawing.Image.FromFile("C:/Users/odle.so.1/Downloads/cards/img/" + c + ".png");
+                 //   System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap("img/" + c + ".png");
+                }
+
+                var im = ImageManip.CombineBitmap(fileList);
+                im.Save("C:/Users/odle.so.1/Downloads/cards/img/decks/" +  dList[i].Nickname + ".png");
             }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //var xy = WebCrawl.HtmlPull.htmlTest();
+
+/*
+            for(int i = 0; i < CardNames.Count; i++)
+            {
+                var x = WebCrawl.HtmlPull.getCardFromWebData(CardNames[i], getURLforCard(CardNames[i]));
+                xx.Add(x);
+            }
+            */
+           // var x = WebCrawl.HtmlPull.getCardFromWebData("stab gobs", "http://clashroyale.wikia.com/wiki/Spear_Goblins");
+
+
+
             // setCardImageSource("mini p.e.k.k.a");
-           startTest();
-          //  populateCardComboData();
+            startTest();
+            //  populateCardComboData();
+        }
+
+        private static string getURLforCard(string cardName)
+        {
+            if (cardName.Contains(" "))
+            {
+                string n = char.ToUpper(cardName[0]) + cardName.Substring(1);
+                n = n.Replace(" ", "_");
+
+                int i = n.IndexOf("_");
+
+                string m = n.Substring(0, i + 1) + char.ToUpper(n[i+1]) + n.Substring(i+2);
+
+                return "http://clashroyale.wikia.com/wiki/" + m;
+            }
+            else
+            {
+                return "http://clashroyale.wikia.com/wiki/" + char.ToUpper(cardName[0]) + cardName.Substring(1);
+            }
+
         }
 
 
@@ -210,7 +278,7 @@ namespace CR_DeckAnalysis
             }
 
 
-         //   populateCardComboData();
+            //   populateCardComboData();
 
         }
 
@@ -391,7 +459,7 @@ namespace CR_DeckAnalysis
                     // }
                     TopCardQuads_Display = new ObservableCollection<CardGroupReport>(tmpR);
                 }
-               // TopCardQuads_Display = IO.CardGroupReports_Import("C:\\Users\\odle.so.1\\Desktop\\cardQuadsREPORT");
+                // TopCardQuads_Display = IO.CardGroupReports_Import("C:\\Users\\odle.so.1\\Desktop\\cardQuadsREPORT");
             }
 
             if (calculateDisplayReports)
@@ -501,7 +569,7 @@ namespace CR_DeckAnalysis
         {
             if (true)
             {
-             //   Cards_GridView_T5.ItemsSource = TopCardQuads_Display;
+                //   Cards_GridView_T5.ItemsSource = TopCardQuads_Display;
                 //set the tab colors 
                 MenuTab.Background = Brush_TabUnselected;
                 RawDataTab.Background = Brush_TabSelected;
@@ -1027,7 +1095,71 @@ namespace CR_DeckAnalysis
 
 
 
+        public static class ImageManip
+        {
+            public static System.Drawing.Bitmap CombineBitmap(string[] files)
+            {
+                //read all images into memory
+                List<System.Drawing.Bitmap> images = new List<System.Drawing.Bitmap>();
+                System.Drawing.Bitmap finalImage = null;
 
+                try
+                {
+                    int width = 0;
+                    int height = 0;
+
+                    foreach (string image in files)
+                    {
+                        //create a Bitmap from the file and add it to the list
+                           System.Drawing.Image imageX =  System.Drawing.Image.FromFile(image);
+                        //   System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap("img/" + c + ".png");
+                        System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(imageX);
+
+                        //update the size of the final bitmap
+                        width += bitmap.Width;
+                        height = bitmap.Height > height ? bitmap.Height : height;
+
+                        images.Add(bitmap);
+                    }
+
+                    //create a bitmap to hold the combined image
+                    finalImage = new System.Drawing.Bitmap(width, height);
+
+                    //get a graphics object from the image so we can draw on it
+                    using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(finalImage))
+                    {
+                        //set background color
+                        g.Clear(System.Drawing.Color.Black);
+
+                        //go through each image and draw it on the final image
+                        int offset = 0;
+                        foreach (System.Drawing.Bitmap image in images)
+                        {
+                            g.DrawImage(image,
+                              new System.Drawing.Rectangle(offset, 0, image.Width, image.Height));
+                            offset += image.Width;
+                        }
+                    }
+
+                    return finalImage;
+                }
+                catch (Exception ex)
+                {
+                    if (finalImage != null)
+                        finalImage.Dispose();
+
+                    throw ex;
+                }
+                finally
+                {
+                    //clean up memory
+                    foreach (System.Drawing.Bitmap image in images)
+                    {
+                        image.Dispose();
+                    }
+                }
+            }
+        }
 
 
 

@@ -7,6 +7,33 @@ using System.Threading.Tasks;
 
 namespace CR_DeckAnalysis
 {
+
+    public class CardWebData
+    {
+        public string Name { get; set; }
+        public CardStats Stats { get; set; }
+
+        public List<string> Trivia { get; set; }
+
+        public List<Tuple<int, int, int, int>> LevelData { get; set; }
+
+        public CardWebData(string name)
+            {
+                Name = name;
+            }
+    }
+
+
+    public struct CardStats
+    {
+        public string Name;
+        public int Cost;
+        public double HitSpeed;
+        public string Speed;
+        public double DeployTime;
+        public double Range;
+    }
+
     public class Card
     {
         public string Name { get; set; } = "";
@@ -18,14 +45,18 @@ namespace CR_DeckAnalysis
         public CardRarity Rarity { get; set; }
 
         [JsonIgnore]
-        public int Arena {get;set;} = -1;
+        public int Arena { get; set; } = -1;
 
+        [JsonIgnore]
+        public CardWebData WebData { get; set; }
 
         public override string ToString()
         {
             return Name + " " + Cost;
         }
 
+
+        //   public Card() { }
         public Card(string name)
         {
             this.Name = name.ToLower();
@@ -165,7 +196,7 @@ namespace CR_DeckAnalysis
                     break;
 
                 case "mini p.e.k.k.a":
-       
+
                     Cost = 4;
                     Rarity = CardRarity.Rare;
                     Arena = 0;

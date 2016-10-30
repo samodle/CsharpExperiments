@@ -15,6 +15,7 @@ namespace CR_DeckAnalysis
         public string PlayerName { get; set; } = "";
 
         public string Nickname { get; set; } = "";
+        public string Link { get; set; } = "";
         #endregion
         public int Arena()
         {
@@ -112,6 +113,28 @@ namespace CR_DeckAnalysis
             this.Season = season;
             this.Rank = rank;
             this.PlayerName = rank.ToString();
+        }
+
+        public Deck(string nickName, string deckList, string deckLink = "")
+        {
+            this.Nickname = nickName;
+            this.Link = deckLink;
+
+            string D = deckList;
+            for(int i = 0; i < 7; i++)
+            {
+                int comma = D.IndexOf(",");
+                string cardName = D.Substring(0, comma);
+                D = D.Substring(comma + 1, D.Length - comma - 1);
+                if (D.Substring(0, 1) == " ")
+                    D = D.Substring(1, D.Length - 1);
+
+                Card c = new Card(cardName);
+                addCard(c);
+            }
+
+            Card cc = new Card(D);
+            addCard(cc);
         }
         
     }

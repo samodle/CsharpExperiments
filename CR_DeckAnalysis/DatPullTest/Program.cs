@@ -12,9 +12,9 @@ namespace DatPullTest
     {
         static void Main(string[] args)
         {
-           string x = HtmlPull.executeWebRequest();
+          // string x = HtmlPull.executeWebRequest();
 
-            Console.Write(x);
+          //  Console.Write(x);
         }
     }
 }

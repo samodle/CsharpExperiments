@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -372,6 +373,11 @@
     <EmbeddedResource Include="RawData\14.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\graveyard.png" />
+    <Resource Include="img\ice-golem.png" />
+    <Resource Include="img\mega-minion.png" />
   </ItemGroup>
   <Import Project="..\ClashResources\ClashResources.projitems" Label="Shared" />
   <Import Project="..\WebCrawl\WebCrawl.projitems" Label="Shared" />

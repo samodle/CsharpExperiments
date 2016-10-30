@@ -91,6 +91,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -103,6 +104,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageManip.cs" />
     <Compile Include="MyBot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -288,6 +290,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="img\graveyard.png" />
     <Content Include="img\guards.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -298,6 +301,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="img\ice-golem.png" />
     <Content Include="img\ice-spirit.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -338,6 +342,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="img\mega-minion.png" />
     <Content Include="img\miner.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
