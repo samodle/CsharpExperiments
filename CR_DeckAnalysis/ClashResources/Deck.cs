@@ -16,7 +16,24 @@ namespace CR_DeckAnalysis
 
         public string Nickname { get; set; } = "";
         public string Link { get; set; } = "";
+        public string Link_Desc { get; set; } = "";
+
+
+        public List<int> IndicesPresent { get; set; } = new List<int>();
+        public List<int> IndicesPresent_Prev { get; set; } = new List<int>();
+
+
         #endregion
+
+        public bool isSameAs(Deck otherDeck)
+        {
+            bool r = true;
+            for(int i = 0; i < Cards.Count; i++)
+            {
+                r = r && otherDeck.doesContainCard(Cards[i].Name);
+            }
+            return r;
+        }
         public int Arena()
         {
             int x = 0;
@@ -43,7 +60,7 @@ namespace CR_DeckAnalysis
             if(Cards.Count < 8)
                 return base.ToString();
 
-            return Rank + ": " + Rank + ", Avg. Cost: " + AvgCost() ;
+            return Rank + ": " + Rank + ", Avg. Cost: " + AvgCost() + " Arena: " + Arena() ;
         }
 
         public string toString_Cards()

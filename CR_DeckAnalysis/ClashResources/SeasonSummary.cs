@@ -107,6 +107,19 @@ namespace CR_DeckAnalysis
             return retInt;
         }
 
+        public List<int> WhichDecksAreSameAsDeck(Deck testDeck)
+        {
+            List<int> rList = new List<int>();
+            for(int i = 0; i < Top100Decks.Count; i++)
+            {
+                if (Top100Decks[i].doesContainCard(testDeck.Cards[0].Name) && Top100Decks[i].doesContainCard(testDeck.Cards[1].Name) && Top100Decks[i].doesContainCard(testDeck.Cards[2].Name) && Top100Decks[i].doesContainCard(testDeck.Cards[3].Name) && Top100Decks[i].doesContainCard(testDeck.Cards[4].Name) && Top100Decks[i].doesContainCard(testDeck.Cards[5].Name) && Top100Decks[i].doesContainCard(testDeck.Cards[6].Name) && Top100Decks[i].doesContainCard(testDeck.Cards[7].Name))
+                {
+                    rList.Add(i);
+                }
+            }
+            return rList;
+        }
+
         private void initMetrics()
         {
             AvgCost = Top100Decks.Sum(item => item.AvgCost()) / Top100Decks.Count;

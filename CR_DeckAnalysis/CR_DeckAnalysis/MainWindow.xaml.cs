@@ -252,6 +252,7 @@ namespace CR_DeckAnalysis
             List<Deck> importList12 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\12.txt"));
             List<Deck> importList13 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\13.txt"));
             List<Deck> importList14 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\14.txt"));
+            List<Deck> importList15 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\15.txt"));
 
             DeckSummaries.Add(new SeasonSummary(importList1, 1));
             DeckSummaries.Add(new SeasonSummary(importList3, 3));
@@ -265,6 +266,7 @@ namespace CR_DeckAnalysis
             DeckSummaries.Add(new SeasonSummary(importList12, 12));
             DeckSummaries.Add(new SeasonSummary(importList13, 13));
             DeckSummaries.Add(new SeasonSummary(importList14, 14));
+            DeckSummaries.Add(new SeasonSummary(importList15, 15));
 
             for (int i = 0; i < DeckSummaries.Count; i++)
             {

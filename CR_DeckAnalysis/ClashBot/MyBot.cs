@@ -50,13 +50,12 @@ namespace ClashBot
                 }          
                 );*/
 
+            RegisterCommandsCommand();
             RegisterCardImgCommand();
             RegisterSeasonSummaryCommand();
             RegisterCardTrendCommand();
             RegisterDecksFromCardCommand();
             registerAllDeckCommands();
-
-
 
             discord.ExecuteAndWait(async () =>
             {
@@ -80,6 +79,20 @@ namespace ClashBot
             });
         }
 
+        private void RegisterCommandsCommand()
+        {
+
+            //Since we have setup our CommandChar to be '~', we will run this command by typing ~greet
+            commands.CreateCommand("commands") //create command greet
+            .Alias(new string[] { "command", "comands"}) //add 2 aliases, so it can be run with ~gr and ~hi
+            .Description("List of commands.") //add description, it will be shown when ~help is used
+
+            .Do(async e =>
+            {
+                await e.Channel.SendMessage("Hi " + e.User.Name + ", here's what I can do (in each of the following replace 'X' with your input): " + Environment.NewLine + Environment.NewLine + "**!arena X** - shows decks for a given arena" + Environment.NewLine + Environment.NewLine + "**!deck X** - deck info for given deck" + Environment.NewLine + Environment.NewLine + "**!deckrank X** - deck info for deck in X place on ladder last season" + Environment.NewLine + Environment.NewLine + "**!card X** - card info for given card" + Environment.NewLine + Environment.NewLine + "**!top100 X** - all decks in the top 100 players last season using a given card" + Environment.NewLine + Environment.NewLine + "**!seasonsummary X** - information on given Clash Royale season" + Environment.NewLine + Environment.NewLine + "**!cardtrend X** - card type (rare, common, etc.) trend usage over all seasons");
+                //sends a message to channel with the given text
+            });
+        }
 
         private void RegisterDecksFromCardCommand()
         {
@@ -118,10 +131,6 @@ namespace ClashBot
             });
         }
 
-
-
-
-
         private void RegisterCardImgCommand()
         {
             //Since we have setup our CommandChar to be '~', we will run this command by typing ~greet
@@ -149,24 +158,24 @@ namespace ClashBot
                             if (currentUsage > 0)
                             {
                                 //await e.Channel.SendMessage("Cost: " + DeckSummaries[DeckSummaries.Count - 1].CardData[i].Cost + ". Last season " + cardName + " was in " + currentUsage + "% of the top 100 decks, a change of " + usageDelta + "% from the previous season. Try '!top100 " + cardName + "' to see which top 100 decks used " + cardName + ".");
-                                await e.Channel.SendMessage("Cost: " + DeckSummaries[DeckSummaries.Count - 1].CardData[i].Cost + ". Last season " + cardName + " was in " + currentUsage + "% of the top 100 decks, a change of " + usageDelta + "% from the previous season.");
+                                await e.Channel.SendMessage("**Cost:** " + DeckSummaries[DeckSummaries.Count - 1].CardData[i].Cost + ". Last season " + cardName + " was in **" + currentUsage + "%** of the top 100 decks, a change of **" + usageDelta + "%** from the previous season.");
 
                                 for (int ix = 0; ix < DeckSummaries[DeckSummaries.Count - 1].Top100Decks.Count; ix++)
                                 {
                                     if (DeckSummaries[DeckSummaries.Count - 1].Top100Decks[ix].doesContainCard(cardName))
                                     {
                                         string deckString = DeckSummaries[DeckSummaries.Count - 1].Top100Decks[ix].toString_Cards();
-                                        await e.Channel.SendMessage("Top Ranked Deck Using " + cardName + " #" + ix + ": " + deckString);
+                                        await e.Channel.SendMessage("Top Deck Using " + cardName + " was **Rank #" + (ix + 1) + ":** " + deckString);
 
                                         break;
                                     }
                                 }
-                                await e.Channel.SendMessage(" Try '!top100 " + cardName + "' to see the rest of the top 100 decks using " + cardName + ".");
+                                await e.Channel.SendMessage(" Try **'!top100 " + cardName.Replace(" ", "-") + "'** to see the rest of the top 100 decks using " + cardName + ".");
 
                             }
                             else
                             {
-                                await e.Channel.SendMessage("Cost: " + DeckSummaries[DeckSummaries.Count - 1].CardData[i].Cost + ". Last season " + cardName + " wasn't used in the top 100 decks!  Change of " + usageDelta + "% from the previous season.");
+                                await e.Channel.SendMessage("**Cost:** " + DeckSummaries[DeckSummaries.Count - 1].CardData[i].Cost + ". Last season " + cardName + " wasn't used in the top 100 decks!  Change of **" + usageDelta + "%** from the previous season.");
                             }
                             break;
                         }
@@ -216,14 +225,14 @@ namespace ClashBot
             return Regex.Replace(str1, @"\s+", "-");
         }
 
-
         #region Decks
 
         private void registerAllDeckCommands()
         {
-          //  RegisterDecksCommand();
-         //   RegisterArenasCommand();
+            RegisterDecksCommand();
+            RegisterArenasCommand();
             RegisterIndividualDeckCommands();
+            RegisterTopIndividualDeckCommands();
 
         }
 
@@ -232,8 +241,8 @@ namespace ClashBot
 
 
             //Since we have setup our CommandChar to be '~', we will run this command by typing ~greet
-            commands.CreateCommand("decks") //create command greet
-            .Alias(new string[] { "deck", "deckz" }) //add 2 aliases, so it can be run with ~gr and ~hi
+            commands.CreateCommand("deck") //create command greet
+            .Alias(new string[] { "dek", "dcek" }) //add 2 aliases, so it can be run with ~gr and ~hi
             .Description("Clash Royale deck information.") //add description, it will be shown when ~help is used
             .Parameter("GreetedPerson", ParameterType.Required) //as an argument, we have a person we want to greet
             .Do(async e =>
@@ -253,7 +262,14 @@ namespace ClashBot
                         if (RDecks[j].Nickname.ToLower() == s.ToLower())
                             x = j;
                     }
-                    await e.Channel.SendMessage("**Avg. Cost**:  " + RDecks[x].AvgCost() + ", **Card List**: " + RDecks[x].toString_Cards());//% Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
+                    if(RDecks[x].IndicesPresent.Count == 0)
+                    {
+                        await e.Channel.SendMessage("**Avg. Cost**:  " + RDecks[x].AvgCost() + ", **Card List**: " + RDecks[x].toString_Cards() + Environment.NewLine + "This deck was not used by the top 100 players on ladder last season.");//% Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
+                    }
+                    else
+                    {
+                        await e.Channel.SendMessage("**Avg. Cost**:  " + RDecks[x].AvgCost() + ", **Card List**: " + RDecks[x].toString_Cards() + Environment.NewLine + "This deck was used by **" + RDecks[x].IndicesPresent.Count + " of the top 100 players** on ladder last season.");//% Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
+                    }
                     await e.Channel.SendFile("C:/Users/odle.so.1/Downloads/cards/img/decks/" + s + ".png");
                 }
                 else
@@ -277,32 +293,64 @@ namespace ClashBot
 
 
         }
-        private void RegisterDecksCommand()
+
+        private void RegisterTopIndividualDeckCommands()
         {
             //Since we have setup our CommandChar to be '~', we will run this command by typing ~greet
-            commands.CreateCommand("decks") //create command greet
-            .Alias(new string[] { "deck", "deckz" }) //add 2 aliases, so it can be run with ~gr and ~hi
-            .Description("Clash Royale deck information.") //add description, it will be shown when ~help is used
+            commands.CreateCommand("deckrank") //create command greet
+            .Alias(new string[] { "rankdeck", "drank" }) //add 2 aliases, so it can be run with ~gr and ~hi
+            .Description("Clash Royale deck information about top ladder decks.") //add description, it will be shown when ~help is used
             .Parameter("GreetedPerson", ParameterType.Required) //as an argument, we have a person we want to greet
             .Do(async e =>
             {
                 int inputNum;
                 bool oops = Int32.TryParse(e.GetArg("GreetedPerson"), out inputNum);
-                int seasonNum = DeckSummaries.Count - 1;
-                int indexNum = seasonNum - inputNum;
 
-                if (!oops || indexNum < 0 || indexNum > 9)
+                if (oops && inputNum > 0 && inputNum < 101)
                 {
-                    await e.Channel.SendMessage("Hi " + e.User.Name + ", to find decks from a certain arena type '!decks X' (replace X with the arena number.)");
+                    Deck x = DeckSummaries[DeckSummaries.Count - 1].Top100Decks[inputNum - 1];
+                    //   if (RDecks[x].IndicesPresent.Count == 0)
+                    //  {
+                    await e.Channel.SendMessage("**Avg. Cost**:  " + x.AvgCost() + ", **Card List**: " + x.toString_Cards());// + Environment.NewLine + "This deck was not used by the top 100 players on ladder last season.");//% Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
+                    //}
+                    //else
+                    //{
+                     //   await e.Channel.SendMessage("**Avg. Cost**:  " + RDecks[x].AvgCost() + ", **Card List**: " + RDecks[x].toString_Cards() + Environment.NewLine + "This deck was used by **" + RDecks[x].IndicesPresent.Count + " of the top 100 players** on ladder last season.");//% Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
+                    //}
+                    await e.Channel.SendFile("C:/Users/odle.so.1/Downloads/cards/img/decks/zrank" + (inputNum - 1) + ".png");
                 }
                 else
                 {
-
-
-
-
-                    await e.Channel.SendMessage("Avg. Deck Cost:  " + DeckSummaries[indexNum].AvgCost + ", % Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
+                    await e.Channel.SendMessage("Sorry, " + e.User.Name + ", looks like your input was invalid. Any command **!deckrank X** with X between 1-100 should work. For example, try **!deckrank 2**. ");
                 }
+
+                // await e.Channel.SendMessage(e.User.Name + " greets " + e.GetArg("GreetedPerson"));
+                //sends a message to channel with the given text
+            });
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+        private void RegisterDecksCommand()
+        {
+            //Since we have setup our CommandChar to be '~', we will run this command by typing ~greet
+            commands.CreateCommand("decks") //create command greet
+            .Alias(new string[] { "deckz", "dcks" }) //add 2 aliases, so it can be run with ~gr and ~hi
+            .Description("Clash Royale deck information.") //add description, it will be shown when ~help is used
+            .Do(async e =>
+            {
+
+                    await e.Channel.SendMessage("**Hi " + e.User.Name + "**, to find decks from a certain arena, type ***'!arena X'*** (replace X with the arena number.)" + Environment.NewLine + "If you know the name of the deck, try ***'!deck X'*** (X is the deck name)."  + Environment.NewLine + "If you want to see which top 100 decks from last season used a certain card, try ***!top100 X*** (X is card name).");
+
 
                 // await e.Channel.SendMessage(e.User.Name + " greets " + e.GetArg("GreetedPerson"));
                 //sends a message to channel with the given text
@@ -314,24 +362,40 @@ namespace ClashBot
         private void RegisterArenasCommand()
         {
             //Since we have setup our CommandChar to be '~', we will run this command by typing ~greet
-            commands.CreateCommand("decks") //create command greet
-            .Alias(new string[] { "deck", "deckz" }) //add 2 aliases, so it can be run with ~gr and ~hi
-            .Description("Clash Royale deck information.") //add description, it will be shown when ~help is used
+            commands.CreateCommand("arena") //create command greet
+            .Alias(new string[] { "aerna", "anera" }) //add 2 aliases, so it can be run with ~gr and ~hi
+            .Description("Clash Royale decks from different arenas.") //add description, it will be shown when ~help is used
             .Parameter("GreetedPerson", ParameterType.Required) //as an argument, we have a person we want to greet
             .Do(async e =>
             {
                 int inputNum;
                 bool oops = Int32.TryParse(e.GetArg("GreetedPerson"), out inputNum);
-                int seasonNum = DeckSummaries.Count - 1;
-                int indexNum = seasonNum - inputNum;
 
-                if (!oops || indexNum < 0)
+                if (oops && inputNum > 0 && inputNum < 10)
                 {
-                    await e.Channel.SendMessage(e.User.Name + ", looks like your input was invalid. Enter '0' for most recent season, '1' for the one before that, etc.");
+                    var newDeckList = new List<Deck>();
+                    string outputString = "";
+                    for(int i = 0; i < RDecks.Count; i++)
+                    {
+                        if (RDecks[i].Arena() <= inputNum)
+                        {
+                            newDeckList.Add(RDecks[i]);
+                            outputString += RDecks[i].Nickname + ", ";
+                        }
+                    }
+
+                    if (newDeckList.Count > 0)
+                    {
+                        await e.Channel.SendMessage(outputString);
+                    }
+                    else
+                    {
+                        await e.Channel.SendMessage("Sorry, " + e.User.Name + ", your query didn't return any decks. Any command **!arena X** with X between 0-9 should work. For example, try **!Arena 6**. ");
+                    }
                 }
                 else
                 {
-                    await e.Channel.SendMessage("Avg. Deck Cost:  " + DeckSummaries[indexNum].AvgCost + ", % Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
+                    await e.Channel.SendMessage("Sorry, " + e.User.Name + ", looks like your input was invalid. Any command **!arena X** with X between 0-9 should work. For example, try **!Arena 6**. ");
                 }
 
                 // await e.Channel.SendMessage(e.User.Name + " greets " + e.GetArg("GreetedPerson"));
@@ -342,8 +406,6 @@ namespace ClashBot
         }
 
         #endregion
-
-
 
         private void RegisterSeasonSummaryCommand()
         {
@@ -379,7 +441,6 @@ namespace ClashBot
                       await e.Channel.SendFile("img/archers.png");
                   });*/
         }
-
 
         private void RegisterCardTrendCommand()
         {
@@ -427,6 +488,7 @@ namespace ClashBot
                       await e.Channel.SendFile("img/archers.png");
                   });*/
         }
+
         private string getRarityTrendString(CardRarity r)
         {
             string s = "";
@@ -446,6 +508,15 @@ namespace ClashBot
 
 
 
+
+
+
+
+
+
+
+
+        #region Data Initialization
         private void initializeImageData()
         {
 
@@ -465,6 +536,23 @@ namespace ClashBot
                 var im = ImageManip.CombineBitmap(fileList);
                 im.Save("C:/Users/odle.so.1/Downloads/cards/img/decks/" + RDecks[i].Nickname + ".png");
             }
+
+            for (int i = 0; i < DeckSummaries[DeckSummaries.Count - 1].Top100Decks.Count; i++)
+            {
+                var fileList = new string[8];
+                for (int j = 0; j < DeckSummaries[DeckSummaries.Count - 1].Top100Decks[i].Cards.Count; j++)
+                {
+                    string c = DeckSummaries[DeckSummaries.Count - 1].Top100Decks[i].Cards[j].Name.Replace(' ', '-');
+                    c = c.Replace(".", "");
+                    fileList[j] = "C:/Users/odle.so.1/Downloads/cards/img/" + c + ".png";
+
+                    //   System.Drawing.Image image =  System.Drawing.Image.FromFile("C:/Users/odle.so.1/Downloads/cards/img/" + c + ".png");
+                    //   System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap("img/" + c + ".png");
+                }
+
+                var im = ImageManip.CombineBitmap(fileList);
+                im.Save("C:/Users/odle.so.1/Downloads/cards/img/decks/zrank" + i + ".png");
+            }
         }
         private void initializeClashData()
         {
@@ -480,6 +568,7 @@ namespace ClashBot
             List<Deck> importList12 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\12.txt"));
             List<Deck> importList13 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\13.txt"));
             List<Deck> importList14 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\14.txt"));
+            List<Deck> importList15 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\15.txt"));
 
             DeckSummaries.Add(new SeasonSummary(importList1, 1));
             DeckSummaries.Add(new SeasonSummary(importList3, 3));
@@ -493,6 +582,7 @@ namespace ClashBot
             DeckSummaries.Add(new SeasonSummary(importList12, 12));
             DeckSummaries.Add(new SeasonSummary(importList13, 13));
             DeckSummaries.Add(new SeasonSummary(importList14, 14));
+            DeckSummaries.Add(new SeasonSummary(importList15, 15));
 
             CardNames = DeckSummaries[0].CardNames;
 
@@ -510,10 +600,16 @@ namespace ClashBot
 
             //   populateCardComboData();
 
+            //now lets see our deck usage
+            for(int i = 0; i < RDecks.Count; i++)
+            {
+                List<int> num = DeckSummaries[DeckSummaries.Count - 1].WhichDecksAreSameAsDeck(RDecks[i]);
+                RDecks[i].IndicesPresent = num;
+                List<int> num2 = DeckSummaries[DeckSummaries.Count - 2].WhichDecksAreSameAsDeck(RDecks[i]);
+                RDecks[i].IndicesPresent_Prev = num2;
+            }
+
         }
-
-
-
-
+        #endregion
     }
 }

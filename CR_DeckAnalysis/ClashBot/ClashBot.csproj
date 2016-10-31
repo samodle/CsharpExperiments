@@ -178,6 +178,9 @@
     <Content Include="img\archers.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="RawData\15.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\arrows.png">
@@ -342,7 +345,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="img\mega-minion.png" />
+    <Content Include="img\mega-minion.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="img\miner.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

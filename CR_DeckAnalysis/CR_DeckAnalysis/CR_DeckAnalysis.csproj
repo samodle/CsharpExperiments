@@ -379,6 +379,11 @@
     <Resource Include="img\ice-golem.png" />
     <Resource Include="img\mega-minion.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RawData\15.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="..\ClashResources\ClashResources.projitems" Label="Shared" />
   <Import Project="..\WebCrawl\WebCrawl.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
