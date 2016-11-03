@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{DA7A21FA-8162-4350-AD77-A8D1B671F3ED}") = "R_Shiny_App", "R_Shiny_App\R_Shiny_App.rxproj", "{BA1F8C91-835A-4A2D-8FD7-8010E76DBEDD}"
+EndProject
+Project("{DA7A21FA-8162-4350-AD77-A8D1B671F3ED}") = "R_Shiny_App2", "R_Shiny_App2\R_Shiny_App2.rxproj", "{C71A1037-40BD-44E4-A54D-AA89023EA107}"
+EndProject
+Project("{DA7A21FA-8162-4350-AD77-A8D1B671F3ED}") = "R_Shiny_App0", "R_Shiny_App0\R_Shiny_App0.rxproj", "{3F7C4E07-DE0F-4668-A285-31C79DE51398}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA1F8C91-835A-4A2D-8FD7-8010E76DBEDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA1F8C91-835A-4A2D-8FD7-8010E76DBEDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA1F8C91-835A-4A2D-8FD7-8010E76DBEDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA1F8C91-835A-4A2D-8FD7-8010E76DBEDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C71A1037-40BD-44E4-A54D-AA89023EA107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C71A1037-40BD-44E4-A54D-AA89023EA107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C71A1037-40BD-44E4-A54D-AA89023EA107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C71A1037-40BD-44E4-A54D-AA89023EA107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F7C4E07-DE0F-4668-A285-31C79DE51398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F7C4E07-DE0F-4668-A285-31C79DE51398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F7C4E07-DE0F-4668-A285-31C79DE51398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F7C4E07-DE0F-4668-A285-31C79DE51398}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

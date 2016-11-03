@@ -121,11 +121,19 @@ namespace ClashBot
                 if (targetDecks.Count > 0)
                 {
                     string deckString = "";
+                    string outputString = "";
                     for (int i = 0; i < targetDecks.Count; i++)
                     {
                         deckString = DeckSummaries[DeckSummaries.Count - 1].Top100Decks[targetDecks[i]].toString_Cards();
-                        await e.Channel.SendMessage("Deck Rank #" + targetDecks[i] + " (" + (i + 1) + " of " + targetDecks.Count + "): " + deckString);
+                        outputString += "Deck Rank **#" + targetDecks[i] + "** (" + (i + 1) + " of " + targetDecks.Count + "): " + deckString + Environment.NewLine;
+                        if (i % 9 == 0)
+                        {
+                            await e.Channel.SendMessage(outputString);
+                            outputString = "";
+                        }
                     }
+                    await e.Channel.SendMessage(outputString);
+
                 }
 
             });
@@ -270,7 +278,7 @@ namespace ClashBot
                     {
                         await e.Channel.SendMessage("**Avg. Cost**:  " + RDecks[x].AvgCost() + ", **Card List**: " + RDecks[x].toString_Cards() + Environment.NewLine + "This deck was used by **" + RDecks[x].IndicesPresent.Count + " of the top 100 players** on ladder last season.");//% Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
                     }
-                    await e.Channel.SendFile("C:/Users/odle.so.1/Downloads/cards/img/decks/" + s + ".png");
+                    await e.Channel.SendFile("C:/Users/public/cards/img/decks/" + s + ".png");
                 }
                 else
                 {
@@ -317,7 +325,7 @@ namespace ClashBot
                     //{
                      //   await e.Channel.SendMessage("**Avg. Cost**:  " + RDecks[x].AvgCost() + ", **Card List**: " + RDecks[x].toString_Cards() + Environment.NewLine + "This deck was used by **" + RDecks[x].IndicesPresent.Count + " of the top 100 players** on ladder last season.");//% Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
                     //}
-                    await e.Channel.SendFile("C:/Users/odle.so.1/Downloads/cards/img/decks/zrank" + (inputNum - 1) + ".png");
+                    await e.Channel.SendFile("C:/Users/public/cards/img/decks/zrank" + (inputNum - 1) + ".png");
                 }
                 else
                 {
@@ -527,14 +535,14 @@ namespace ClashBot
                 {
                     string c = RDecks[i].Cards[j].Name.Replace(' ', '-');
                     c = c.Replace(".", "");
-                    fileList[j] = "C:/Users/odle.so.1/Downloads/cards/img/" + c + ".png";
+                    fileList[j] = "C:/Users/public/cards/img/" + c + ".png";
 
                     //   System.Drawing.Image image =  System.Drawing.Image.FromFile("C:/Users/odle.so.1/Downloads/cards/img/" + c + ".png");
                     //   System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap("img/" + c + ".png");
                 }
 
                 var im = ImageManip.CombineBitmap(fileList);
-                im.Save("C:/Users/odle.so.1/Downloads/cards/img/decks/" + RDecks[i].Nickname + ".png");
+                im.Save("C:/Users/public/cards/img/decks/" + RDecks[i].Nickname + ".png");
             }
 
             for (int i = 0; i < DeckSummaries[DeckSummaries.Count - 1].Top100Decks.Count; i++)
@@ -544,14 +552,14 @@ namespace ClashBot
                 {
                     string c = DeckSummaries[DeckSummaries.Count - 1].Top100Decks[i].Cards[j].Name.Replace(' ', '-');
                     c = c.Replace(".", "");
-                    fileList[j] = "C:/Users/odle.so.1/Downloads/cards/img/" + c + ".png";
+                    fileList[j] = "C:/Users/public/cards/img/" + c + ".png";
 
                     //   System.Drawing.Image image =  System.Drawing.Image.FromFile("C:/Users/odle.so.1/Downloads/cards/img/" + c + ".png");
                     //   System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap("img/" + c + ".png");
                 }
 
                 var im = ImageManip.CombineBitmap(fileList);
-                im.Save("C:/Users/odle.so.1/Downloads/cards/img/decks/zrank" + i + ".png");
+                im.Save("C:/Users/public/cards/img/decks/zrank" + i + ".png");
             }
         }
         private void initializeClashData()

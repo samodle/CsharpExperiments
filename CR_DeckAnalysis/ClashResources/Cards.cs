@@ -92,6 +92,13 @@ namespace CR_DeckAnalysis
                     Arena = 2;
                     break;
 
+                case "fire spirit":
+                    Name = "fire spirits";
+                    Cost = 2;
+                    Rarity = CardRarity.Common;
+                    Arena = 5;
+                    break;
+
                 case "fire spirits":
                     Cost = 2;
                     Rarity = CardRarity.Common;
@@ -402,6 +409,12 @@ namespace CR_DeckAnalysis
                     Arena = 6;
                     break;
 
+                case "the log":
+                    Name = "log";
+                    Cost = 2;
+                    Rarity = CardRarity.Legendary;
+                    Arena = 6;
+                    break;
                 case "log":
                     Cost = 2;
                     Rarity = CardRarity.Legendary;
