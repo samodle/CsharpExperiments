@@ -176,7 +176,7 @@ namespace CR_DeckAnalysis
                 }
 
                 var im = ImageManip.CombineBitmap(fileList);
-                im.Save("C:/Users/odle.so.1/Downloads/cards/img/decks/" +  dList[i].Nickname + ".png");
+               //not needed any more // im.Save("C:/Users/odle.so.1/Downloads/cards/img/decks/" +  dList[i].Nickname + ".png");
             }
 
 
@@ -195,20 +195,85 @@ namespace CR_DeckAnalysis
 
             //var xy = WebCrawl.HtmlPull.htmlTest();
 
-/*
-            for(int i = 0; i < CardNames.Count; i++)
-            {
-                var x = WebCrawl.HtmlPull.getCardFromWebData(CardNames[i], getURLforCard(CardNames[i]));
-                xx.Add(x);
-            }
-            */
-           // var x = WebCrawl.HtmlPull.getCardFromWebData("stab gobs", "http://clashroyale.wikia.com/wiki/Spear_Goblins");
+            /*
+                        for(int i = 0; i < CardNames.Count; i++)
+                        {
+                            var x = WebCrawl.HtmlPull.getCardFromWebData(CardNames[i], getURLforCard(CardNames[i]));
+                            xx.Add(x);
+                        }
+                        */
+            // var x = WebCrawl.HtmlPull.getCardFromWebData("stab gobs", "http://clashroyale.wikia.com/wiki/Spear_Goblins");
 
 
-
+        
             // setCardImageSource("mini p.e.k.k.a");
             startTest();
             //  populateCardComboData();
+            exportSnapshotTrendsToCSV();
+        }
+
+
+        private void exportSnapshotTrendsToCSV()
+        {
+            List<string> CardNames = new List<string>(new string[] { "spear goblins", "skeletons", "fire spirits", "goblins", "zap", "minions", "ice spirit", "arrows", "bomber", "cannon", "archers", "knight", "tesla", "mortar", "minion horde", "barbarians", "royal giant", "tombstone", "mini p.e.k.k.a", "valkyrie", "musketeer", "fireball", "furnace", "hog rider", "wizard", "giant", "bomb tower", "inferno tower", "goblin hut", "elixir collector", "rocket", "barbarian hut", "three musketeers", "rage", "goblin barrel", "guards", "dark prince", "poison", "baby dragon", "skeleton army", "freeze", "prince", "witch", "balloon", "lightning", "bowler", "giant skeleton", "x-bow", "p.e.k.k.a", "golem", "log", "miner", "princess", "ice wizard", "lumberjack", "sparky", "lava hound", "mega minion", "inferno dragon", "graveyard", "ice golem", "mirror"});
+
+            CardTrend_ChartXVals.Clear();
+            CardTrend_ChartYVals.Clear();
+
+            //first, lets get all the data
+            for (int j = 0; j < CardNames.Count; j++)
+            {
+
+                    var tmpYList = new List<int>();
+                    var tmpXList = new List<string>();
+
+                    for (int i = 0; i < DeckSummaries.Count; i++)
+                    {
+                        tmpYList.Add(DeckSummaries[i].HowManyOfCard(CardNames[j]));
+                        tmpXList.Add(DeckSummaries[i].SeasonNumber.ToString());
+                    }
+
+                    CardTrend_ChartXVals.Add(tmpXList);
+                    CardTrend_ChartYVals.Add(tmpYList);
+
+            }
+
+            //now lets make the CSV
+            //string path = "";
+            using (var w = new StreamWriter("C:/Users/odle.so.1/Downloads/clashData.csv"))
+            {
+                string r = "";
+                for(int i = 0; i < CardNames.Count - 1; i++)
+                {
+                    r += CardNames[i] + ",";
+                }
+                r += CardNames[CardNames.Count - 1];
+                w.WriteLine(r);
+                for ( int i = 0; i < DeckSummaries.Count; i ++)
+                {
+                    // var first = yourFnToGetFirst();
+                    // var second = yourFnToGetSecond();
+                    // var line = string.Format("{0},{1}", first, second);
+                    string line = getCardTrendString(i);
+                    w.WriteLine(line);
+                    w.Flush();
+                }
+            }
+
+        }
+
+
+        private string getCardTrendString(int yIndex)
+        {
+            string r = "";
+
+            for(int i = 0; i < CardTrend_ChartYVals.Count - 1; i++)
+            {
+                r += CardTrend_ChartYVals[i][yIndex] + ",";
+            }
+            r += CardTrend_ChartYVals[yIndex][CardTrend_ChartYVals[yIndex].Count - 1];
+
+            return r;
         }
 
         private static string getURLforCard(string cardName)

@@ -292,14 +292,6 @@ namespace ClashBot
                 // await e.Channel.SendMessage(e.User.Name + " greets " + e.GetArg("GreetedPerson"));
                 //sends a message to channel with the given text
             });
-
-
-
-
-
-
-
-
         }
 
         private void RegisterTopIndividualDeckCommands()
@@ -335,14 +327,6 @@ namespace ClashBot
                 // await e.Channel.SendMessage(e.User.Name + " greets " + e.GetArg("GreetedPerson"));
                 //sends a message to channel with the given text
             });
-
-
-
-
-
-
-
-
         }
 
 
