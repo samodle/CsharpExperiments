@@ -312,7 +312,7 @@ namespace ClashBot
                     //   if (RDecks[x].IndicesPresent.Count == 0)
                     //  {
                     await e.Channel.SendMessage("**Avg. Cost**:  " + x.AvgCost() + ", **Card List**: " + x.toString_Cards());// + Environment.NewLine + "This deck was not used by the top 100 players on ladder last season.");//% Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
-                    //}
+                    //}H
                     //else
                     //{
                      //   await e.Channel.SendMessage("**Avg. Cost**:  " + RDecks[x].AvgCost() + ", **Card List**: " + RDecks[x].toString_Cards() + Environment.NewLine + "This deck was used by **" + RDecks[x].IndicesPresent.Count + " of the top 100 players** on ladder last season.");//% Legendary: " + DeckSummaries[indexNum].Pct_Legendary + ", % Epic: " + DeckSummaries[indexNum].Pct_Epic + ", % Rare: " + DeckSummaries[indexNum].Pct_Rare + ", % Common: " + DeckSummaries[indexNum].Pct_Common);
@@ -561,6 +561,7 @@ namespace ClashBot
             List<Deck> importList13 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\13.txt"));
             List<Deck> importList14 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\14.txt"));
             List<Deck> importList15 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\15.txt"));
+            List<Deck> importList17 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\17.txt"));
 
             DeckSummaries.Add(new SeasonSummary(importList1, 1));
             DeckSummaries.Add(new SeasonSummary(importList3, 3));
@@ -575,6 +576,7 @@ namespace ClashBot
             DeckSummaries.Add(new SeasonSummary(importList13, 13));
             DeckSummaries.Add(new SeasonSummary(importList14, 14));
             DeckSummaries.Add(new SeasonSummary(importList15, 15));
+            DeckSummaries.Add(new SeasonSummary(importList17, 17));
 
             CardNames = DeckSummaries[0].CardNames;
 

@@ -243,12 +243,26 @@ namespace CR_DeckAnalysis
             using (var w = new StreamWriter("C:/Users/odle.so.1/Downloads/clashData.csv"))
             {
                 string r = "";
-                for(int i = 0; i < CardNames.Count - 1; i++)
+
+                //HEADER
+
+                r += "Common,";
+                r += "Rare,";
+                r += "Epic,";
+               r += "Legendary,";
+
+                for (int i = 0; i < CardNames.Count - 1; i++)
                 {
                     r += CardNames[i] + ",";
                 }
+
+
+
                 r += CardNames[CardNames.Count - 1];
                 w.WriteLine(r);
+
+                //DATA
+
                 for ( int i = 0; i < DeckSummaries.Count; i ++)
                 {
                     // var first = yourFnToGetFirst();
@@ -262,12 +276,33 @@ namespace CR_DeckAnalysis
 
         }
 
+        private string getRarityTrendString(CardRarity r)
+        {
+            string s = "";
+            for (int i = 0; i < DeckSummaries.Count - 1; i++)
+            {
+                s += DeckSummaries[i].getRarity(r) + ", ";
+            }
+            s += DeckSummaries[DeckSummaries.Count - 1].getRarity(r);
+
+            return s;
+        }
+
 
         private string getCardTrendString(int yIndex)
         {
             string r = "";
 
-            for(int i = 0; i < CardTrend_ChartYVals.Count - 1; i++)
+
+
+            r += DeckSummaries[yIndex].getRarity(CardRarity.Common) + ",";
+            r += DeckSummaries[yIndex].getRarity(CardRarity.Rare) + ",";
+
+            r += DeckSummaries[yIndex].getRarity(CardRarity.Epic) + ",";
+
+            r += DeckSummaries[yIndex].getRarity(CardRarity.Legendary) + ",";
+
+            for (int i = 0; i < CardTrend_ChartYVals.Count - 1; i++)
             {
                 r += CardTrend_ChartYVals[i][yIndex] + ",";
             }
@@ -318,6 +353,7 @@ namespace CR_DeckAnalysis
             List<Deck> importList13 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\13.txt"));
             List<Deck> importList14 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\14.txt"));
             List<Deck> importList15 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\15.txt"));
+            List<Deck> importList17 = IO.DeckList_Import(Path.Combine(Environment.CurrentDirectory, @"RawData\17.txt"));
 
             DeckSummaries.Add(new SeasonSummary(importList1, 1));
             DeckSummaries.Add(new SeasonSummary(importList3, 3));
@@ -332,6 +368,7 @@ namespace CR_DeckAnalysis
             DeckSummaries.Add(new SeasonSummary(importList13, 13));
             DeckSummaries.Add(new SeasonSummary(importList14, 14));
             DeckSummaries.Add(new SeasonSummary(importList15, 15));
+            DeckSummaries.Add(new SeasonSummary(importList17, 17));
 
             for (int i = 0; i < DeckSummaries.Count; i++)
             {

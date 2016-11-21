@@ -1,17 +1,19 @@
 library(shiny)
+mydata = read.csv("data/clashData.csv") # read csv file
 ui <- fluidPage(
 # Give the page a title
-titlePanel("Telephones by region"),
+titlePanel("Card Usage At The Top Of The Ladder"),
 
   # Generate a row with a sidebar
 sidebarLayout(
 
+#clashData <<- clashData,
     # Define the sidebar with one input
     sidebarPanel(
       selectInput("region", "Region:",
-                  choices = colnames(WorldPhones)),
+                  choices = colnames(mydata)),
       hr(),
-      helpText("Data from AT&T (1961) The World's Telephones.")
+      helpText("Data from Woody's Snapshots via Reddit.")
     ),
 
     # Create a spot for the barplot
@@ -22,15 +24,17 @@ sidebarLayout(
   )
     )
 
-server <- function(input, output) { 
+server <- function(input, output) {
+
+   # clashData <<- clashData
     # Fill in the spot we created for a plot
     output$phonePlot <- renderPlot({
 
         # Render a barplot
-    barplot(WorldPhones[, input$region] * 1000,
+    barplot(mydata[, input$region],
             main = input$region,
-            ylab = "% Used in Top 100",
-            xlab = "Snapshot")
+            ylab = "# Used in Top 100 Decks",
+            xlab = "Snapshot #")
   })
 }
 

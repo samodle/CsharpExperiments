@@ -68,6 +68,11 @@ namespace CR_DeckAnalysis
         {
             switch (this.Name)
             {
+                case "tornado":
+                    Cost = 3;
+                    Rarity = CardRarity.Epic;
+                    Arena = 6;
+                    break;
                 case "graveyard":
                     Cost = 5;
                     Rarity = CardRarity.Legendary;
